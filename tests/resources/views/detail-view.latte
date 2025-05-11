@@ -1,0 +1,22 @@
+{detailview $data[0]}
+    {dataField 'id'}
+    {dataField 'artist'}
+    {dataField 'title'}
+    {dataField 'recordLabel'}
+    {dataField 'catalogueNumber'}
+    {dataField 'releaseDate'}
+{/detailview}
+
+{detailview $data[1]
+    |template:<table{attributes}><caption>{header}</caption><tbody{fieldListAttributes}>{fields}</tbody></table>
+    |labelTag:'th',
+    |valueTag:'td'
+}
+    {dataField 'id'|label:'ID'}
+    {dataField 'artist'|label:'Artist'}
+    {dataField 'title'|label:'Title'}
+    {dataField 'recordLabel'|label:'Record Label'}
+    {dataField 'catalogueNumber'|label:'Catalogue Number'}
+    {dataField|label:'Release Date'|value:'Closure to convert to DateTime then format'}
+{/detailview}
+

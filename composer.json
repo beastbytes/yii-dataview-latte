@@ -1,0 +1,46 @@
+{
+  "name": "beastbytes/yii-dataview-latte",
+  "description": "Integrates the Yii Framework DataView package with view-latte Latte Template Renderer",
+  "keywords": [
+    "yii3",
+    "DataView",
+    "DetailView",
+    "GridView",
+    "ListView",
+    "latte"
+  ],
+  "type": "library",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "BSD-3-Clause",
+  "require": {
+    "php": "^8.1",
+    "beastbytes/view-latte": "dev-master",
+    "yiisoft/yii-dataview": "dev-master",
+    "yiisoft/router": "^4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0",
+    "vimeo/psalm": "^5.0",
+    "yiisoft/dummy-provider": "dev-master",
+    "yiisoft/psr-dummy-provider": "^1.0",
+    "yiisoft/test-support": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "BeastBytes\\Yii\\DataView\\Latte\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BeastBytes\\Yii\\DataView\\Latte\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "infection/extension-installer": true
+    }
+  }
+}
