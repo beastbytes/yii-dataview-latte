@@ -40,6 +40,7 @@ phpunit.phar
 
 # Codeception
 c3.php
+/tests/generated
 /tests/_output
 /tests/Support/_generated
 /tests/Support/Data/testDB.sqlite
