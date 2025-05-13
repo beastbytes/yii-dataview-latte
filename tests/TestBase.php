@@ -8,7 +8,6 @@ use BeastBytes\View\Latte\LatteFactory;
 use BeastBytes\Yii\DataView\Latte\DataViewExtension;
 use Latte\Engine;
 use PHPUnit\Framework\Attributes\AfterClass;
-use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Files\FileHelper;
