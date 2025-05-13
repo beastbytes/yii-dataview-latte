@@ -34,12 +34,10 @@ abstract class TestBase extends TestCase
         ;
     }
 
-    /*
     #[AfterClass]
     public static function afterClass(): void
     {
         FileHelper::removeDirectory(self::CACHE_DIR);
         FileHelper::removeDirectory(self::TEMPLATE_DIR);
     }
-    */
 }
