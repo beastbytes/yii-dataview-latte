@@ -24,7 +24,9 @@
     "vimeo/psalm": "^5.0",
     "yiisoft/dummy-provider": "dev-master",
     "yiisoft/psr-dummy-provider": "^1.0",
-    "yiisoft/test-support": "^3.0"
+    "yiisoft/test-support": "^3.0",
+    "yiisoft/view": "^12.0",
+    "yiisoft/yii-view-renderer": "^7.0"
   },
   "autoload": {
     "psr-4": {
