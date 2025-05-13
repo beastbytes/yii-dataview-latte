@@ -13,17 +13,16 @@ use Latte\Compiler\Tag;
 class ColumnNode extends StatementNode
 {
     private IdentifierNode $name;
-    private ExpressionNode|null $header = null;
-    private ExpressionNode|null $footer = null;
-    private ExpressionNode $columnAttributes;
-    private ExpressionNode $bodyAttributes;
-    private ExpressionNode $visible;
+    private ExpressionNode $property;
 
     public static function create(Tag $tag): self
     {
         $tag->expectArguments();
         $node = $tag->node = new self;
-        $node->name = new IdentifierNode($tag->name);
+        $node->name = new IdentifierNode(ucfirst($tag->name));
+
+        $node->property = $tag->parser->parseExpression();
+
         return $node;
     }
 
@@ -34,9 +33,11 @@ class ColumnNode extends StatementNode
 
         return $context->format(
             <<<'MASK'
-            echo Yiisoft\Yii\DataView\Column::%node(%node, %node, %node) %line;
+            echo "\n";
+            echo "new Yiisoft\Yii\DataView\Column\%node(%node)," %line;
             MASK,
             $this->name,
+            $this->property,
         );
     }
 
@@ -45,6 +46,7 @@ class ColumnNode extends StatementNode
      */
     public function &getIterator(): \Generator
     {
-        // TODO: Implement getIterator() method.
+        yield $this->name;
+        yield $this->property;
     }
 }
