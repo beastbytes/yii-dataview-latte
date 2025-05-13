@@ -4,21 +4,37 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte\Tests;
 
-use BeastBytes\View\Latte\LatteFactory;
-use BeastBytes\Yii\DataView\Latte\DataViewExtension;
 use Generator;
-use Latte\Engine;
+use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
-use Yiisoft\Files\FileHelper;
+use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\Iterable\IterableDataReader;
+use Yiisoft\Data\Reader\ReadableDataInterface;
 use Yiisoft\Yii\DataView\Field\DataField;
 
 final class DataViewTest extends TestBase
 {
+    static array $data = [];
+    static ReadableDataInterface $dataReader;
+    static array $fields = [];
+
+    #[BeforeClass]
+    public static function before(): void
+    {
+        self::$data = require __DIR__ . '/resources/data.php';
+
+        $fields = array_keys(self::$data[0]);
+        self::$fields = array_map(fn($field) => new DataField('$field'), $fields);
+
+        self::$dataReader = (new OffsetPaginator(new IterableDataReader(self::$data)))
+            ->withPageSize(10)
+        ;
+    }
+
     #[Test]
     #[DataProvider('detailViewProvider')]
-    public function detailView(array|object $data, array $fields, string $expected): void
+    public function detailView(string $expected): void
     {
         $templateFile = $this->createDetailViewTemplate();
 
@@ -26,8 +42,8 @@ final class DataViewTest extends TestBase
             ->renderToString(
                 $templateFile,
                 [
-                    'data' => $data,
-                    'fields' => $fields,
+                    'data' => self::$data[0],
+                    'fields' => self::$fields,
                 ]
             )
         ;
@@ -36,30 +52,87 @@ final class DataViewTest extends TestBase
     }
 
     #[Test]
-    public function gridView(): void
+    #[DataProvider('gridViewProvider')]
+    public function gridView(string $expected): void
     {
+        $templateFile = $this->createGridViewTemplate();
+
+        $actual = self::$latte
+            ->renderToString(
+                $templateFile,
+                [
+                    'dataReader' => self::$dataReader,
+                ]
+            )
+        ;
+
+        $this->assertSame($expected, $actual);
     }
 
     #[Test]
-    public function listView(): void
+    #[DataProvider('listViewProvider')]
+    public function listView(string $expected): void
     {
+        $templateFile = $this->createListViewTemplate();
+
+        $actual = self::$latte
+            ->renderToString(
+                $templateFile,
+                [
+                    'dataReader' => self::$dataReader,
+                    'itemView' => 'list-item',
+                ]
+            )
+        ;
+
+        $this->assertSame($expected, $actual);
     }
 
     public static function detailViewProvider(): Generator
     {
-        $data = require __DIR__ . '/resources/data.php';
-
-        $detail = $data[0];
-        $fields = array_keys($detail);
-        $fields = array_map(fn($field) => new DataField('$field'), $fields);
-
         yield 'detailView' => [
-            'data' => $detail,
-            'fields' => $fields,
             'expected' => <<< 'EXPECTED'
 Yiisoft\Yii\DataView\DetailView::widget()
     ->data($data)
-    ->fields(...$fields)
+    ->fields(
+new Yiisoft\Yii\DataView\Field\DataField('id'),
+new Yiisoft\Yii\DataView\Field\DataField('artist'),
+new Yiisoft\Yii\DataView\Field\DataField('title'),
+new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
+new Yiisoft\Yii\DataView\Field\DataField('catalogueNumber'),
+new Yiisoft\Yii\DataView\Field\DataField('releaseDate'),
+    )
+;
+EXPECTED,
+        ];
+    }
+
+    public static function gridViewProvider(): Generator
+    {
+        yield 'gridView' => [
+            'expected' => <<< 'EXPECTED'
+Yiisoft\Yii\DataView\GridView::widget()
+    ->dataReader($dataReader)
+    ->columns(
+new Yiisoft\Yii\DataView\Column\DataColumn('id'),
+new Yiisoft\Yii\DataView\Column\DataColumn('artist'),
+new Yiisoft\Yii\DataView\Column\DataColumn('title'),
+new Yiisoft\Yii\DataView\Column\DataColumn('recordLabel'),
+new Yiisoft\Yii\DataView\Column\DataColumn('catalogueNumber'),
+new Yiisoft\Yii\DataView\Column\DataColumn('releaseDate'),
+    )
+;
+EXPECTED,
+        ];
+    }
+
+    public static function listViewProvider(): Generator
+    {
+        yield 'listView' => [
+            'expected' => <<< 'EXPECTED'
+Yiisoft\Yii\DataView\ListView::widget()
+    ->dataReader($dataReader)
+    ->itemView($itemView)
 ;
 EXPECTED,
         ];
@@ -69,12 +142,54 @@ EXPECTED,
     {
         $template = <<< 'TEMPLATE'
 {varType array|object $data}
-{varType array $fields}
 
-{detailView $data $fields}
+{detailView $data}
+    {dataField 'id'}
+    {dataField 'artist'}
+    {dataField 'title'}
+    {dataField 'recordLabel'}
+    {dataField 'catalogueNumber'}
+    {dataField 'releaseDate'}
+{/detailView}
 TEMPLATE;
 
         $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'detailView-' . md5($template) . '.latte';
+        file_put_contents($templateFile, $template);
+
+        return $templateFile;
+    }
+
+    private function createGridViewTemplate(): string
+    {
+        $template = <<< 'TEMPLATE'
+{varType ReadableDataInterface $dataReader}
+
+{gridView $dataReader}
+    {dataColumn 'id'}
+    {dataColumn 'artist'}
+    {dataColumn 'title'}
+    {dataColumn 'recordLabel'}
+    {dataColumn 'catalogueNumber'}
+    {dataColumn 'releaseDate'}
+{/gridView}
+TEMPLATE;
+
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'gridView-' . md5($template) . '.latte';
+        file_put_contents($templateFile, $template);
+
+        return $templateFile;
+    }
+
+    private function createListViewTemplate(): string
+    {
+        $template = <<< 'TEMPLATE'
+{varType ReadableDataInterface $dataReader}
+{varType string $itemView}
+
+{listView $dataReader $itemView}
+TEMPLATE;
+
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'listView-' . md5($template) . '.latte';
         file_put_contents($templateFile, $template);
 
         return $templateFile;

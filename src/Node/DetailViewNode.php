@@ -7,6 +7,7 @@ namespace BeastBytes\Yii\DataView\Latte\Node;
 use Generator;
 use Latte\CompileException;
 use Latte\Compiler\Node;
+use Latte\Compiler\Nodes\AreaNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\FilterNode;
 use Latte\Compiler\Nodes\Php\IdentifierNode;
@@ -17,29 +18,31 @@ use Latte\Compiler\Tag;
 
 class DetailViewNode extends StatementNode
 {
-    public ExpressionNode $data;
-    public ExpressionNode $fields;
+    public ?ModifierNode $config = null;
     public string $configuration = '';
+    public ExpressionNode $data;
+    public AreaNode $fields;
     private IdentifierNode $name;
 
     /**
      * @throws CompileException
      */
-    public static function create(Tag $tag): self
+    public static function create(Tag $tag): Generator
     {
         $tag->expectArguments();
         $node = $tag->node = new self;
         $node->name = new IdentifierNode(ucfirst($tag->name));
 
         $node->data = $tag->parser->parseExpression();
-        $node->fields = $tag->parser->parseExpression();
+        $node->config = $tag->parser->parseModifier();
 
+        [$node->fields, $endTag] = yield;
         return $node;
     }
 
     public function print(PrintContext $context): string
     {
-        //$this->parseConfiguration($context);
+        $this->parseConfiguration($context);
 
         return $context->format(
             <<<'MASK'
@@ -47,14 +50,19 @@ class DetailViewNode extends StatementNode
             echo "\n";
             echo '    ->data(%node)';
             echo "\n";
-            echo '    ->fields(...%node)';
+            echo '    ->fields(';
+            %node
             echo "\n";
+            echo '    )';
+            echo "\n";
+            echo '%raw';
             echo ';';
             MASK,
             $this->name,
             $this->position,
             $this->data,
-            $this->fields
+            $this->fields,
+            $this->configuration,
         );
     }
 
