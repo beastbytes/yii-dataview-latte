@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BeastBytes\Yii\DataView\Latte\Node;
 
 use Latte\Compiler\Node;
-use Latte\Compiler\Nodes\Php\Expression\ArrayNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\FilterNode;
 use Latte\Compiler\Nodes\Php\IdentifierNode;
@@ -16,8 +15,7 @@ use Latte\Compiler\Tag;
 
 class FieldNode extends StatementNode
 {
-    private ?ExpressionNode $field = null;
-    private ArrayNode $fields;
+    private ExpressionNode $field;
     public ?ModifierNode $modifiers = null;
     private ?IdentifierNode $name = null;
     public string $parameters = '';
@@ -28,7 +26,7 @@ class FieldNode extends StatementNode
         $node = $tag->node = new self;
         $node->name = new IdentifierNode(ucfirst($tag->name));
 
-        $node->fields = $tag->parser->parseArguments();
+        $node->field = $tag->parser->parseExpression();
 
         /*
         foreach ($tag->parser->parseArguments() as $argument) {
@@ -43,16 +41,15 @@ class FieldNode extends StatementNode
 
     public function print(PrintContext $context): string
     {
-        $this->parseParameters($context);
+        //$this->parseParameters($context);
 
         return $context->format(
             <<<'MASK'
             echo "\n";
-            echo "new Yiisoft\Yii\DataView\Field\%node(%node%raw)," %line;
+            echo "new Yiisoft\Yii\DataView\Field\%node(%node)," %line;
             MASK,
             $this->name,
             $this->field,
-            $this->parameters,
         );
     }
 

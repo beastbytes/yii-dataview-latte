@@ -24,7 +24,7 @@ final class FieldTest extends TestBase
         $templateFile = $this->createTemplate($name, $label, $value);
 
         $actual = self::$latte
-            ->renderToString(self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . $templateFile)
+            ->renderToString($templateFile)
         ;
 
         $this->assertSame($expected, $actual);
@@ -35,7 +35,6 @@ final class FieldTest extends TestBase
         $data = require __DIR__ . '/resources/data.php';
         $detail = $data[0];
 
-        /*
         yield 'id' => [
             'name' => 'id',
             'label' => '',
@@ -45,14 +44,13 @@ final class FieldTest extends TestBase
 new Yiisoft\Yii\DataView\Field\DataField('id'),
 EXPECTED,
         ];
-        */
         yield 'artist' => [
             'name' => 'artist',
             'label' => 'Group',
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Field\DataField('artist', label: 'Group'),
+new Yiisoft\Yii\DataView\Field\DataField('artist'),
 EXPECTED,
         ];
         yield 'title' => [
@@ -61,16 +59,16 @@ EXPECTED,
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Field\DataField('title', label: 'Title'),
+new Yiisoft\Yii\DataView\Field\DataField('title'),
 EXPECTED,
         ];
         yield 'recordLabel' => [
-            'name' => '',
+            'name' => 'recordLabel',
             'label' => 'Label',
             'value' => $detail['recordLabel'],
             'expected' => <<<EXPECTED
 
-new Yiisoft\Yii\DataView\Field\DataField(label: 'Record Label', value: '{$detail['recordLabel']}'),
+new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
 EXPECTED,
         ];
         yield 'catalogueNumber' => [
@@ -103,19 +101,14 @@ EXPECTED,
     {
         $template = sprintf(
             <<<'TEMPLATE'
-            {dataField %s%s%s}
+            {dataField '%s'}
             TEMPLATE,
-            $name ? "name: '" . addslashes($name) . "'" : '',
-            $label ? ($name ? ', ' : '') . "label:'" . addslashes($label) . "'" : '',
-            $value
-                ? ($name || $label ? ', ' : '') . 'value:' . (is_string($value) ? "'" . addslashes($value) . "'" : $value)
-                : ''
-            ,
+            $name,
         );
 
-        $templateFile = ($name ? $name : $label) . '.latte';
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . $name . '.latte';
 
-        file_put_contents(self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . $templateFile, $template);
+        file_put_contents($templateFile, $template);
 
         return $templateFile;
     }
