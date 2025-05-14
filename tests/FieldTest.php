@@ -41,7 +41,7 @@ final class FieldTest extends TestBase
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Field\DataField('id'),
+        new Yiisoft\Yii\DataView\Field\DataField('id'),
 EXPECTED,
         ];
         yield 'artist' => [
@@ -50,7 +50,7 @@ EXPECTED,
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Field\DataField('artist'),
+        new Yiisoft\Yii\DataView\Field\DataField('artist'),
 EXPECTED,
         ];
         yield 'title' => [
@@ -59,7 +59,7 @@ EXPECTED,
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Field\DataField('title'),
+        new Yiisoft\Yii\DataView\Field\DataField('title'),
 EXPECTED,
         ];
         yield 'recordLabel' => [
@@ -68,7 +68,7 @@ EXPECTED,
             'value' => $detail['recordLabel'],
             'expected' => <<<EXPECTED
 
-new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
+        new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
 EXPECTED,
         ];
         yield 'catalogueNumber' => [
@@ -77,7 +77,7 @@ EXPECTED,
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Field\DataField('catalogueNumber'),
+        new Yiisoft\Yii\DataView\Field\DataField('catalogueNumber'),
 EXPECTED,
         ];
         /*
