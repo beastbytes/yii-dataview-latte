@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte\Node;
 
+use Generator;
 use Latte\Compiler\Node;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\FilterNode;
@@ -92,7 +93,7 @@ class ListViewNode extends StatementNode
     /**
      * @inheritDoc
      */
-    public function &getIterator(): \Generator
+    public function &getIterator(): Generator
     {
         yield $this->name;
         yield $this->dataReader;;

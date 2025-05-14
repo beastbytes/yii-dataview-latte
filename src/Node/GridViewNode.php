@@ -96,7 +96,7 @@ class GridViewNode extends StatementNode
     /**
      * @inheritDoc
      */
-    public function &getIterator(): \Generator
+    public function &getIterator(): Generator
     {
         yield $this->name;
         yield $this->dataReader;;
