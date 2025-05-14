@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Node;
+namespace BeastBytes\Yii\DataView\Latte\Node\Field;
 
+use Generator;
 use Latte\Compiler\Node;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\FilterNode;
@@ -28,14 +29,6 @@ class FieldNode extends StatementNode
 
         $node->field = $tag->parser->parseExpression();
 
-        /*
-        foreach ($tag->parser->parseArguments() as $argument) {
-            $node->field = $argument->value;
-        }
-
-        $node->modifiers = $tag->parser->parseModifier();
-        */
-
         return $node;
     }
 
@@ -46,7 +39,7 @@ class FieldNode extends StatementNode
         return $context->format(
             <<<'MASK'
             echo "\n";
-            echo "new Yiisoft\Yii\DataView\Field\%node(%node)," %line;
+            echo "        new Yiisoft\Yii\DataView\Field\%node(%node)," %line;
             MASK,
             $this->name,
             $this->field,
@@ -56,7 +49,7 @@ class FieldNode extends StatementNode
     /**
      * @inheritDoc
      */
-    public function &getIterator(): \Generator
+    public function &getIterator(): Generator
     {
         yield $this->name;
         yield $this->field;
