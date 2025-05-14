@@ -10,6 +10,7 @@ use Latte\Engine;
 use PHPUnit\Framework\Attributes\AfterClass;
 use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\TestCase;
+use Yiisoft\Data\Reader\ReadableDataInterface;
 use Yiisoft\Files\FileHelper;
 
 abstract class TestBase extends TestCase
@@ -18,6 +19,7 @@ abstract class TestBase extends TestCase
     protected const TEMPLATE_DIR = __DIR__ . '/generated/template';
 
     protected static array $data = [];
+    protected static array $fields = [];
     protected static Engine $latte;
 
     #[BeforeClass]
@@ -25,6 +27,9 @@ abstract class TestBase extends TestCase
     {
         FileHelper::ensureDirectory(self::CACHE_DIR);
         FileHelper::ensureDirectory(self::TEMPLATE_DIR);
+
+        self::$data = require __DIR__ . '/resources/data.php';
+        self::$fields = array_keys(self::$data[0]);
         self::$latte = (new LatteFactory(
             cacheDir: self::CACHE_DIR,
             extensions: [new DataViewExtension()]
