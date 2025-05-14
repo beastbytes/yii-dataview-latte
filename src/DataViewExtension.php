@@ -12,18 +12,16 @@ final class DataViewExtension extends Extension
     public function getTags(): array
     {
         return [
-            'actionButton' => Node\ActionButtonNode::create(...),
-            'actionColumn' => Node\ColumnNode::create(...),
-            'checkboxColumn' => Node\ColumnNode::create(...),
-            'dataColumn' => Node\ColumnNode::create(...),
-            'dataField' => Node\FieldNode::create(...),
+            'actionButton' => Node\Column\ActionButtonNode::create(...),
+            'actionColumn' => Node\Column\ActionColumnNode::create(...),
+            'checkboxColumn' => Node\Column\CheckboxColumnNode::create(...),
+            'dataColumn' => Node\Column\DataColumnNode::create(...),
+            'dataField' => Node\Field\FieldNode::create(...),
             'detailView' => Node\DetailViewNode::create(...),
             'gridView' => Node\GridViewNode::create(...),
             'listView' => Node\ListViewNode::create(...),
-            'keysetPagination' => Node\PaginationNode::create(...),
-            'offsetPagination' => Node\PaginationNode::create(...),
-            'radioColumn' => Node\ColumnNode::create(...),
-            'serialColumn' => Node\ColumnNode::create(...),
+            'radioColumn' => Node\Column\RadioColumnNode::create(...),
+            'serialColumn' => Node\Column\SerialColumnNode::create(...),
         ];
     }
 
