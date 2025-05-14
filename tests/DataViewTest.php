@@ -15,18 +15,11 @@ use Yiisoft\Yii\DataView\Field\DataField;
 
 final class DataViewTest extends TestBase
 {
-    static array $data = [];
-    static ReadableDataInterface $dataReader;
-    static array $fields = [];
+    protected static ReadableDataInterface $dataReader;
 
     #[BeforeClass]
     public static function before(): void
     {
-        self::$data = require __DIR__ . '/resources/data.php';
-
-        $fields = array_keys(self::$data[0]);
-        self::$fields = array_map(fn($field) => new DataField('$field'), $fields);
-
         self::$dataReader = (new OffsetPaginator(new IterableDataReader(self::$data)))
             ->withPageSize(10)
         ;
@@ -43,7 +36,7 @@ final class DataViewTest extends TestBase
                 $templateFile,
                 [
                     'data' => self::$data[0],
-                    'fields' => self::$fields,
+                    'fields' => array_map(fn($field) => new DataField('$field'), self::$fields),
                 ]
             )
         ;
@@ -95,12 +88,12 @@ final class DataViewTest extends TestBase
 Yiisoft\Yii\DataView\DetailView::widget()
     ->data($data)
     ->fields(
-new Yiisoft\Yii\DataView\Field\DataField('id'),
-new Yiisoft\Yii\DataView\Field\DataField('artist'),
-new Yiisoft\Yii\DataView\Field\DataField('title'),
-new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
-new Yiisoft\Yii\DataView\Field\DataField('catalogueNumber'),
-new Yiisoft\Yii\DataView\Field\DataField('releaseDate'),
+        new Yiisoft\Yii\DataView\Field\DataField('id'),
+        new Yiisoft\Yii\DataView\Field\DataField('artist'),
+        new Yiisoft\Yii\DataView\Field\DataField('title'),
+        new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
+        new Yiisoft\Yii\DataView\Field\DataField('catalogueNumber'),
+        new Yiisoft\Yii\DataView\Field\DataField('releaseDate'),
     )
 ;
 EXPECTED,
@@ -114,12 +107,19 @@ EXPECTED,
 Yiisoft\Yii\DataView\GridView::widget()
     ->dataReader($dataReader)
     ->columns(
-new Yiisoft\Yii\DataView\Column\DataColumn('id'),
-new Yiisoft\Yii\DataView\Column\DataColumn('artist'),
-new Yiisoft\Yii\DataView\Column\DataColumn('title'),
-new Yiisoft\Yii\DataView\Column\DataColumn('recordLabel'),
-new Yiisoft\Yii\DataView\Column\DataColumn('catalogueNumber'),
-new Yiisoft\Yii\DataView\Column\DataColumn('releaseDate'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('id'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('artist'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('title'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('recordLabel'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('catalogueNumber'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('releaseDate'),
+        new Yiisoft\Yii\DataView\Column\ActionColumn(
+            buttons: [
+                new Yiisoft\Yii\DataView\Column\ActionButton('View', url: '/view/'),
+                new Yiisoft\Yii\DataView\Column\ActionButton('Update', url: '/update/'),
+                new Yiisoft\Yii\DataView\Column\ActionButton('Delete', url: '/delete/'),
+            ],
+        ),
     )
 ;
 EXPECTED,
@@ -161,18 +161,36 @@ TEMPLATE;
 
     private function createGridViewTemplate(): string
     {
-        $template = <<< 'TEMPLATE'
+        $buttons = [];
+        $columns = [];
+
+        foreach (self::$fields as $field) {
+            $columns[] = "{dataColumn '$field'}";
+        }
+
+        foreach (['view', 'update', 'delete'] as $action)  {
+            $buttons[] = "{actionButton '" . ucfirst($action) . "', url: '/$action/'}";
+        }
+
+        $columns[] = sprintf(
+            <<< 'COLUMN'
+{actionColumn}
+%s    
+{/actionColumn}
+COLUMN,
+            '    ' . implode(PHP_EOL . '    ', $buttons)
+        );
+
+        $template = sprintf(
+            <<< 'TEMPLATE'
 {varType ReadableDataInterface $dataReader}
 
 {gridView $dataReader}
-    {dataColumn 'id'}
-    {dataColumn 'artist'}
-    {dataColumn 'title'}
-    {dataColumn 'recordLabel'}
-    {dataColumn 'catalogueNumber'}
-    {dataColumn 'releaseDate'}
+%s
 {/gridView}
-TEMPLATE;
+TEMPLATE,
+            '    ' . implode(PHP_EOL . '    ', $columns)
+        );
 
         $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'gridView-' . md5($template) . '.latte';
         file_put_contents($templateFile, $template);
