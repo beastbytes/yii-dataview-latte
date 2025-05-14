@@ -32,9 +32,9 @@ final class ColumnTest extends TestBase
 
     #[Test]
     #[DataProvider('actionColumnProvider')]
-    public function actionColumn(string $name, string $label, string $value, string $expected): void
+    public function actionColumn(string $expected): void
     {
-        $templateFile = $this->createActionColumnTemplate($name, $label, $value);
+        $templateFile = $this->createActionColumnTemplate();
 
         $actual = self::$latte
             ->renderToString($templateFile)
@@ -45,9 +45,9 @@ final class ColumnTest extends TestBase
 
     #[Test]
     #[DataProvider('checkboxColumnProvider')]
-    public function checkboxColumn(string $name, string $label, string $value, string $expected): void
+    public function checkboxColumn(string $expected): void
     {
-        $templateFile = $this->createCheckboxColumnTemplate($name, $label, $value);
+        $templateFile = $this->createCheckboxColumnTemplate();
 
         $actual = self::$latte
             ->renderToString($templateFile)
@@ -58,7 +58,7 @@ final class ColumnTest extends TestBase
 
     #[Test]
     #[DataProvider('dataColumnProvider')]
-    public function dataColumn(string $name, string $label, string $value, string $expected): void
+    public function dataColumn(string $name, string $label, ?string $value, string $expected): void
     {
         $templateFile = $this->createDataColumnTemplate($name, $label, $value);
 
@@ -71,9 +71,9 @@ final class ColumnTest extends TestBase
 
     #[Test]
     #[DataProvider('radioColumnProvider')]
-    public function radioColumn(string $name, string $label, string $value, string $expected): void
+    public function radioColumn(string $expected): void
     {
-        $templateFile = $this->createRadioColumnTemplate($name, $label, $value);
+        $templateFile = $this->createRadioColumnTemplate();
 
         $actual = self::$latte
             ->renderToString($templateFile)
@@ -84,9 +84,9 @@ final class ColumnTest extends TestBase
 
     #[Test]
     #[DataProvider('serialColumnProvider')]
-    public function serialColumn(string $name, string $label, string $value, string $expected): void
+    public function serialColumn(string $expected): void
     {
-        $templateFile = $this->createSerialColumnTemplate($name, $label, $value);
+        $templateFile = $this->createSerialColumnTemplate();
 
         $actual = self::$latte
             ->renderToString($templateFile)
@@ -97,22 +97,28 @@ final class ColumnTest extends TestBase
 
     public function actionButtonProvider(): Generator
     {
-        yield [
+        yield 'View' => [
             'content' => 'View',
             'url' => '/view',
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Column\ActionButton('View', url: '/view'),
+                new Yiisoft\Yii\DataView\Column\ActionButton('View', url: '/view'),
 EXPECTED
         ];
     }
 
     public function actionColumnProvider(): Generator
     {
-        yield [
+        yield 'buttons' => [
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Column\ActionColumn(),
+        new Yiisoft\Yii\DataView\Column\ActionColumn(
+            buttons: [
+                new Yiisoft\Yii\DataView\Column\ActionButton('View', url: '/view/'),
+                new Yiisoft\Yii\DataView\Column\ActionButton('Update', url: '/update/'),
+                new Yiisoft\Yii\DataView\Column\ActionButton('Delete', url: '/delete/'),
+            ],
+        ),
 EXPECTED
         ];
     }
@@ -122,7 +128,7 @@ EXPECTED
         yield [
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Column\CheckboxColumn(),
+        new Yiisoft\Yii\DataView\Column\CheckboxColumn(),
 EXPECTED
         ];
     }
@@ -135,7 +141,7 @@ EXPECTED
             'value' => null,
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Column\DataColumn('id'),
+        new Yiisoft\Yii\DataView\Column\DataColumn('id'),
 EXPECTED
         ];
     }
@@ -145,7 +151,7 @@ EXPECTED
         yield [
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Column\RadioColumn(),
+        new Yiisoft\Yii\DataView\Column\RadioColumn(),
 EXPECTED
         ];
     }
@@ -155,7 +161,7 @@ EXPECTED
         yield [
             'expected' => <<<'EXPECTED'
 
-new Yiisoft\Yii\DataView\Column\SerialColumn(),
+        new Yiisoft\Yii\DataView\Column\SerialColumn(),
 EXPECTED
         ];
     }
@@ -181,30 +187,38 @@ EXPECTED
         return $templateFile;
     }
 
-    private function createActionColumnTemplate(
-        string $name,
-        string $label,
-        Closure|string|null $value,
-    ): string
+    private function createActionColumnTemplate(): string
     {
-        $template = '';
+        $buttons = [];
 
-        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'actionColumn-' . $name . '.latte';
+        foreach (['view', 'update', 'delete'] as $action)  {
+            $buttons[] = "{actionButton '" . ucfirst($action) . "', url: '/$action/'}";
+        }
+
+        $template = sprintf(
+            <<< 'TEMPLATE'
+{actionColumn}
+%s    
+{/actionColumn}
+
+TEMPLATE,
+            '    ' . implode(PHP_EOL . '    ', $buttons)
+        );
+
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'actionColumn.latte';
 
         file_put_contents($templateFile, $template);
 
         return $templateFile;
     }
 
-    private function createCheckboxColumnTemplate(
-        string $name,
-        string $label,
-        Closure|string|null $value,
-    ): string
+    private function createCheckboxColumnTemplate(): string
     {
-        $template = '';
+        $template = <<<'TEMPLATE'
+            {checkboxColumn}
+            TEMPLATE;
 
-        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'checkboxColumn-' . $name . '.latte';
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'checkboxColumn.latte';
 
         file_put_contents($templateFile, $template);
 
@@ -231,30 +245,26 @@ EXPECTED
         return $templateFile;
     }
 
-    private function createRadioColumnTemplate(
-        string $name,
-        string $label,
-        Closure|string|null $value,
-    ): string
+    private function createRadioColumnTemplate(): string
     {
-        $template = '';
+        $template = <<<'TEMPLATE'
+            {radioColumn}
+            TEMPLATE;
 
-        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'radioColumn-' . $name . '.latte';
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'radioColumn.latte';
 
         file_put_contents($templateFile, $template);
 
         return $templateFile;
     }
 
-    private function createSerialColumnTemplate(
-        string $name,
-        string $label,
-        Closure|string|null $value,
-    ): string
+    private function createSerialColumnTemplate(): string
     {
-        $template = '';
+        $template = <<<'TEMPLATE'
+            {serialColumn}
+            TEMPLATE;
 
-        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'serialColumn-' . $name . '.latte';
+        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . 'serialColumn.latte';
 
         file_put_contents($templateFile, $template);
 

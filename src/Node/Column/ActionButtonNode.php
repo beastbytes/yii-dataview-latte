@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Node;
+namespace BeastBytes\Yii\DataView\Latte\Node\Column;
 
 use Generator;
 use Latte\Compiler\Nodes\Php\Expression\ArrayNode;
@@ -30,7 +30,7 @@ final class ActionButtonNode extends StatementNode
         return $context->format(
             <<<'MASK'
             echo "\n";
-            echo "new Yiisoft\Yii\DataView\Column\ActionButton(%raw)," %line;
+            echo "                new Yiisoft\Yii\DataView\Column\ActionButton(%raw)," %line;
             MASK,
             $this->parseArguments($context),
             $this->position,
