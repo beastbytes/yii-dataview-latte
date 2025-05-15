@@ -4,112 +4,249 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte\Tests;
 
-use Closure;
-use DateTime;
-use Generator;
-use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Test;
 
 final class FieldTest extends TestBase
 {
+    private static $expected = <<<EXPECTED
+<div>
+<dl>
+%s
+</dl>
+</div>
+EXPECTED;
+
+    private static $template = <<<'TEMPLATE'
+{detailView $data}
+%s
+{/detailView}
+TEMPLATE;
+
+    private static array $detail;
+
+    #[Before]
+    public function before(): void
+    {
+        self::$detail = self::$data[0];
+    }
+
     #[Test]
-    #[DataProvider('dataFieldProvider')]
-    public function dataField(
-        string $name,
-        string $label,
-        Closure|string|null $value,
-        string $expected
-    ): void
+    public function data_field(): void
     {
-        $templateFile = $this->createTemplate($name, $label, $value);
+        $expectedFields = [];
+        $fields = [];
 
-        $actual = self::$latte
-            ->renderToString($templateFile)
-        ;
+        foreach (self::$fields as $field) {
+            $expectedFields[] = sprintf(
+                <<<'FIELD'
+<div>
+<dt>%s</dt>
+<dd>%s</dd>
+</div>
+FIELD,
+                $field,
+                self::$detail[$field]
+            );
+            $fields[] = sprintf("{dataField '%s'}", $field);
+        }
 
-        $this->assertSame($expected, $actual);
-    }
-
-    public static function dataFieldProvider(): Generator
-    {
-        $data = require __DIR__ . '/resources/data.php';
-        $detail = $data[0];
-
-        yield 'id' => [
-            'name' => 'id',
-            'label' => '',
-            'value' => null,
-            'expected' => <<<'EXPECTED'
-
-        new Yiisoft\Yii\DataView\Field\DataField('id'),
-EXPECTED,
-        ];
-        yield 'artist' => [
-            'name' => 'artist',
-            'label' => 'Group',
-            'value' => null,
-            'expected' => <<<'EXPECTED'
-
-        new Yiisoft\Yii\DataView\Field\DataField('artist'),
-EXPECTED,
-        ];
-        yield 'title' => [
-            'name' => 'title',
-            'label' => 'Title',
-            'value' => null,
-            'expected' => <<<'EXPECTED'
-
-        new Yiisoft\Yii\DataView\Field\DataField('title'),
-EXPECTED,
-        ];
-        yield 'recordLabel' => [
-            'name' => 'recordLabel',
-            'label' => 'Label',
-            'value' => $detail['recordLabel'],
-            'expected' => <<<EXPECTED
-
-        new Yiisoft\Yii\DataView\Field\DataField('recordLabel'),
-EXPECTED,
-        ];
-        yield 'catalogueNumber' => [
-            'name' => 'catalogueNumber',
-            'label' => '',
-            'value' => null,
-            'expected' => <<<'EXPECTED'
-
-        new Yiisoft\Yii\DataView\Field\DataField('catalogueNumber'),
-EXPECTED,
-        ];
-        /*
-        yield 'releaseDate' => [
-            'name' => 'releaseDate',
-            'label' => '',
-            'value' => fn($data) => (new Datetime($data))->format('M Y'),
-            'expected' => <<<'EXPECTED'
-
-new Yiisoft\Yii\DataView\Field\DataField('releaseDate', value: fn($data) => (new Datetime($data))->format('M Y')),
-EXPECTED,
-        ];
-        */
-    }
-
-    private function createTemplate(
-        string $name,
-        string $label,
-        Closure|string|null $value,
-    ): string
-    {
-        $template = sprintf(
-            <<<'TEMPLATE'
-            {dataField '%s'}
-            TEMPLATE,
-            $name,
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            sprintf(self::$template, implode(PHP_EOL, $fields)),
+            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
         );
+    }
 
-        $templateFile = self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . $name . '.latte';
+    #[Test]
+    public function data_field_with_label(): void
+    {
+        $expectedFields = [];
+        $fields = [];
 
+        foreach (self::$fields as $field) {
+            $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
+            $expectedFields[] = sprintf(
+                <<<'FIELD'
+<div>
+<dt>%s</dt>
+<dd>%s</dd>
+</div>
+FIELD,
+                $label,
+                self::$detail[$field]
+            );
+            $fields[] = sprintf(
+                "{dataField '%s', %s}",
+                $field,
+                'label: \'' . $label . '\''
+            );
+        }
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            sprintf(self::$template, implode(PHP_EOL, $fields)),
+            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+        );
+    }
+
+    #[Test]
+    public function data_field_with_label_and_value(): void
+    {
+        $expectedFields = [];
+        $fields = [];
+
+        foreach (self::$fields as $field) {
+            $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
+
+            $expectedFields[] = sprintf(
+                <<<'FIELD'
+<div>
+<dt>%s</dt>
+<dd>%s</dd>
+</div>
+FIELD,
+                $label,
+                ($field === 'releaseDate'
+                    ? date('Y-m-d', strtotime(self::$detail['releaseDate']))
+                    : self::$detail[$field]
+                )
+            );
+            $fields[] = sprintf(
+                "{dataField '%s', %s, %s}",
+                $field,
+                'label: \'' . $label . '\'',
+                'value: ' . ($field === 'releaseDate'
+                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data[\'releaseDate\']))'
+                    : 'null'
+                )
+            );
+        }
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            sprintf(self::$template, implode(PHP_EOL, $fields)),
+            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+        );
+    }
+
+    #[Test]
+    public function data_field_with_label_and_value_no_field(): void
+    {
+        $expectedFields = [];
+        $fields = [];
+
+        foreach (self::$fields as $field) {
+            $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
+
+            $expectedFields[] = sprintf(
+                <<<'FIELD'
+<div>
+<dt>%s</dt>
+<dd>%s</dd>
+</div>
+FIELD,
+                $label,
+                ($field === 'releaseDate'
+                    ? date('Y-m-d', strtotime(self::$detail['releaseDate']))
+                    : self::$detail[$field]
+                )
+            );
+            $fields[] = sprintf(
+                "{dataField %s, %s}",
+                'label: \'' . $label . '\'',
+                'value: ' . ($field === 'releaseDate'
+                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data[\'releaseDate\']))'
+                    : "'" . self::$detail[$field] . "'"
+                )
+            );
+        }
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            sprintf(self::$template, implode(PHP_EOL, $fields)),
+            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+        );
+    }
+
+    #[Test]
+    public function data_field_with_label_and_value_tags(): void
+    {
+        $expectedFields = [];
+        $fields = [];
+
+        foreach (self::$fields as $field) {
+            $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
+            $expectedFields[] = sprintf(
+                <<<'FIELD'
+<div>
+<span>%s</span>
+<span>%s</span>
+</div>
+FIELD,
+                $label,
+                self::$detail[$field]
+            );
+            $fields[] = sprintf(
+                "{dataField '%s', %s, %s, %s}",
+                $field,
+                'label: \'' . $label . '\'',
+                'labelTag: \'span\'',
+                'valueTag: \'span\''
+            );
+        }
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            sprintf(self::$template, implode(PHP_EOL, $fields)),
+            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+        );
+    }
+
+    #[Test]
+    public function data_field_with_label_and_value_tags_and_attributes(): void
+    {
+        $expectedFields = [];
+        $fields = [];
+
+        foreach (self::$fields as $field) {
+            $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
+            $expectedFields[] = sprintf(
+                <<<'FIELD'
+<div>
+<span class="label">%s</span>
+<span class="value">%s</span>
+</div>
+FIELD,
+                $label,
+                self::$detail[$field]
+            );
+            $fields[] = sprintf(
+                "{dataField '%s', %s, %s, %s, %s, %s}",
+                $field,
+                'label: \'' . $label . '\'',
+                'labelAttributes: ["class" => "label"]',
+                'labelTag: \'span\'',
+                'valueAttributes: ["class" => "value"]',
+                'valueTag: \'span\''
+            );
+        }
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            sprintf(self::$template, implode(PHP_EOL, $fields)),
+            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+        );
+    }
+
+    private function assert(string $templateFile, string $template, string $expected): void
+    {
         file_put_contents($templateFile, $template);
 
-        return $templateFile;
+        $this->assertSame(
+            $expected,
+            self::$latte
+                ->renderToString($templateFile, ['data' => self::$detail])
+        );
     }
 }
