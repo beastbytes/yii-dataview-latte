@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte\Tests;
 
-use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\Attributes\Test;
 
 final class FieldTest extends TestBase
@@ -25,9 +25,10 @@ TEMPLATE;
 
     private static array $detail;
 
-    #[Before]
-    public function before(): void
+    #[BeforeClass]
+    public static function beforeClass(): void
     {
+        parent::beforeClass();
         self::$detail = self::$data[0];
     }
 
