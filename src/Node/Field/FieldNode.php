@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte\Node\Field;
 
+use BeastBytes\Yii\DataView\Latte\Node\ArgumentTrait;
 use Generator;
-use Latte\Compiler\Node;
-use Latte\Compiler\Nodes\Php\Expression\ArrayNode;
-use Latte\Compiler\Nodes\Php\ExpressionNode;
-use Latte\Compiler\Nodes\Php\FilterNode;
 use Latte\Compiler\Nodes\Php\IdentifierNode;
-use Latte\Compiler\Nodes\Php\ModifierNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
 
 class FieldNode extends StatementNode
 {
-    private ArrayNode $arguments;
+    use ArgumentTrait;
+
     private ?IdentifierNode $name = null;
 
     public static function create(Tag $tag): self
@@ -25,7 +22,6 @@ class FieldNode extends StatementNode
         $tag->expectArguments();
         $node = $tag->node = new self;
         $node->name = new IdentifierNode(ucfirst($tag->name));
-
         $node->arguments = $tag->parser->parseArguments();
 
         return $node;
@@ -50,20 +46,5 @@ class FieldNode extends StatementNode
     {
         yield $this->name;
         yield $this->arguments;
-    }
-
-    private function parseArguments(PrintContext $context): string
-    {
-        $arguments = [];
-
-        foreach ($this->arguments as $argument) {
-            $key = $argument->key instanceof IdentifierNode
-                ? $argument->key->print($context) . ': '
-                : ''
-            ;
-            $arguments[] = $key . $argument->value->print($context);
-        }
-
-        return implode(', ', $arguments);
     }
 }
