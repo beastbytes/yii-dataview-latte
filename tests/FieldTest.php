@@ -10,18 +10,20 @@ use PHPUnit\Framework\Attributes\Test;
 final class FieldTest extends TestBase
 {
     private static $expected = <<<EXPECTED
-<div>
-<dl>
-%s
-</dl>
-</div>
-EXPECTED;
+        <div>
+        <dl>
+        %s
+        </dl>
+        </div>
+        EXPECTED
+    ;
 
     private static $template = <<<'TEMPLATE'
-{detailView $data}
-%s
-{/detailView}
-TEMPLATE;
+        {detailView $data}
+        %s
+        {/detailView}
+        TEMPLATE
+    ;
 
     private static array $detail;
 
@@ -41,11 +43,12 @@ TEMPLATE;
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-<div>
-<dt>%s</dt>
-<dd>%s</dd>
-</div>
-FIELD,
+                    <div>
+                    <dt>%s</dt>
+                    <dd>%s</dd>
+                    </div>
+                    FIELD
+                ,
                 $field,
                 self::$detail[$field]
             );
@@ -69,11 +72,12 @@ FIELD,
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-<div>
-<dt>%s</dt>
-<dd>%s</dd>
-</div>
-FIELD,
+                    <div>
+                    <dt>%s</dt>
+                    <dd>%s</dd>
+                    </div>
+                    FIELD
+                ,
                 $label,
                 self::$detail[$field]
             );
@@ -102,11 +106,12 @@ FIELD,
 
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-<div>
-<dt>%s</dt>
-<dd>%s</dd>
-</div>
-FIELD,
+                    <div>
+                    <dt>%s</dt>
+                    <dd>%s</dd>
+                    </div>
+                    FIELD
+                ,
                 $label,
                 ($field === 'releaseDate'
                     ? date('Y-m-d', strtotime(self::$detail['releaseDate']))
@@ -142,11 +147,12 @@ FIELD,
 
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-<div>
-<dt>%s</dt>
-<dd>%s</dd>
-</div>
-FIELD,
+                    <div>
+                    <dt>%s</dt>
+                    <dd>%s</dd>
+                    </div>
+                    FIELD
+                ,
                 $label,
                 ($field === 'releaseDate'
                     ? date('Y-m-d', strtotime(self::$detail['releaseDate']))
@@ -180,11 +186,12 @@ FIELD,
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-<div>
-<span>%s</span>
-<span>%s</span>
-</div>
-FIELD,
+                    <div>
+                    <span>%s</span>
+                    <span>%s</span>
+                    </div>
+                    FIELD
+                ,
                 $label,
                 self::$detail[$field]
             );
@@ -214,11 +221,12 @@ FIELD,
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-<div>
-<span class="label">%s</span>
-<span class="value">%s</span>
-</div>
-FIELD,
+                    <div>
+                    <span class="label">%s</span>
+                    <span class="value">%s</span>
+                    </div>
+                    FIELD
+                ,
                 $label,
                 self::$detail[$field]
             );
