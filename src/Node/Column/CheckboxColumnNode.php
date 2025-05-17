@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BeastBytes\Yii\DataView\Latte\Node\Column;
 
 use Generator;
-use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\IdentifierNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
@@ -13,7 +12,7 @@ use Latte\Compiler\Tag;
 
 class CheckboxColumnNode extends StatementNode
 {
-    private IdentifierNode $name;
+    public IdentifierNode $name;
 
     public static function create(Tag $tag): self
     {
@@ -27,10 +26,10 @@ class CheckboxColumnNode extends StatementNode
     {
         return $context->format(
             <<<'MASK'
-            echo "\n";
-            echo "        new Yiisoft\Yii\DataView\Column\%node()," %line;
+            new Yiisoft\Yii\DataView\Column\%node() %line
             MASK,
-            $this->name
+            $this->name,
+            $this->position,
         );
     }
 

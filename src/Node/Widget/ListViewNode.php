@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Node;
+namespace BeastBytes\Yii\DataView\Latte\Node\Widget;
 
+use BeastBytes\Yii\DataView\Latte\Node\ArgumentTrait;
+use BeastBytes\Yii\DataView\Latte\Node\ConfigurationTrait;
 use Generator;
-use Latte\Compiler\Nodes\Php\Expression\ClosureNode;
 use Latte\Compiler\Nodes\Php\Expression\VariableNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\IdentifierNode;

@@ -14,7 +14,7 @@ use Latte\Compiler\Tag;
 class ActionColumnNode extends StatementNode
 {
     public AreaNode $buttons;
-    private IdentifierNode $name;
+    public IdentifierNode $name;
 
     public static function create(Tag $tag): Generator
     {
@@ -29,15 +29,11 @@ class ActionColumnNode extends StatementNode
     {
         return $context->format(
             <<<'MASK'
-            echo "\n";
-            echo "        new Yiisoft\Yii\DataView\Column\%node(" %line;
-            echo "\n";
-            echo '            buttons: [';
+            new Yiisoft\Yii\DataView\Column\%node( %line
+                buttons: [
             %node
-            echo "\n";
-            echo '            ],';
-            echo "\n";
-            echo '        ),';
+                ],
+            ),
             MASK,
             $this->name,
             $this->position,

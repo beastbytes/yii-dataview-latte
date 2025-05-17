@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte;
 
-use Latte\Compiler\Nodes\TemplateNode;
 use Latte\Engine;
 use Latte\Extension;
 
@@ -18,9 +17,9 @@ final class DataViewExtension extends Extension
             'checkboxColumn' => Node\Column\CheckboxColumnNode::create(...),
             'dataColumn' => Node\Column\DataColumnNode::create(...),
             'dataField' => Node\Field\FieldNode::create(...),
-            'detailView' => Node\DetailViewNode::create(...),
-            'gridView' => Node\GridViewNode::create(...),
-            'listView' => Node\ListViewNode::create(...),
+            'detailView' => Node\Widget\DetailViewNode::create(...),
+            'gridView' => Node\Widget\GridViewNode::create(...),
+            'listView' => Node\Widget\ListViewNode::create(...),
             'radioColumn' => Node\Column\RadioColumnNode::create(...),
             'serialColumn' => Node\Column\SerialColumnNode::create(...),
         ];
