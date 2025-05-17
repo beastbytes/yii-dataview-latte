@@ -5,5 +5,19 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="ActionButton" id="ActionButton">
 
-    <p>Start typing here...</p>
+    <p>
+        The <b>actionButton</b> tag represents a
+        <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Column/ActionButton.php">ActionColumn</a>.
+        It is used within the <b><a href="ActionColumn.topic">actionColumn tag</a></b>.
+    </p>
+
+    <chapter title="Parameters" id="parameters">
+        <p>
+            The <b>actionButton</b> tag has the same parameters as
+            <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Column/ActionButton.php">ActionButton</a>,
+            and they are specified in the same way, i.e. in order and/or as named parameters, and accept the same types.
+        </p>
+    </chapter>
+
+    <include from="GridView.topic" element-id="usage"/>
 </topic>

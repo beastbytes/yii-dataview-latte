@@ -5,5 +5,19 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="RadioColumn" id="RadioColumn">
 
-    <p>Start typing here...</p>
+    <p>
+        The <b>radioColumn</b> tag represents a
+        <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Column/RadioColumn.php">RadioColumn</a>.
+        It is used within the <b><a href="GridView.topic">gridView tag</a></b>.
+    </p>
+
+    <chapter title="Parameters" id="parameters">
+        <p>
+            The <b>radioColumn</b> tag has the same parameters as
+            <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Column/RadioColumn.php">RadioColumn</a>,
+            and they are specified in the same way, i.e. in order and/or as named parameters, and accept the same types.
+        </p>
+    </chapter>
+
+    <include from="GridView.topic" element-id="usage"/>
 </topic>

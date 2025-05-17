@@ -5,5 +5,62 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="ListView" id="ListView">
 
-    <p>Start typing here...</p>
+    <p>
+        The <b>listView</b> tag represents a
+        <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/ListView.php">ListView widget</a>>.
+        It displays a list of data items.
+    </p>
+
+    <chapter title="Parameters" id="parameters">
+        <p>
+            The <b>listView</b> tag has two parameters:
+        </p>
+
+        <table>
+            <tr>
+                <td>Parameter</td>
+                <td>Type</td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td>$dataReader</td>
+                <td>Yiisoft\Data\Reader\ReadableDataInterface</td>
+                <td>An instance of ReadableDataInterface.</td>
+            </tr>
+            <tr>
+                <td>$view</td>
+                <td>Closure|string</td>
+                <td>
+                    <p>Either:</p>
+                    <p>
+                        A Closure that is a callback that renders each item;
+                        the signature is <code>function ($data, $key, int $index, ListView $widget): string</code>.
+                    </p>
+                    <p>or:</p>
+                    <p>A string that is the path to the view that renders each item.</p>
+                    <note>
+                        <p>The view <i>must be</i> a PHP view file.</p>
+                    </note>
+                </td>
+            </tr>
+        </table>
+    </chapter>
+
+    <chapter title="Configuration" id="configuration">
+        <p>
+            The <b>listView</b> tag can be configured using the Latte filter syntax.
+            A configuration <i>filter</i> has the name of the ListView configuration method
+            and accepts the same type as the method's parameter;
+            e.g. <code>{listView $data|header: 'Users'}</code> will set the header of the ListView.
+        </p>
+    </chapter>
+
+    <chapter title="Usage" id="usage">
+        <code-block lang="latte">
+            {varType Yiisoft\Data\Reader\ReadableDataInterface $dataReader}
+            {varType Closure|string $itemView}
+
+            {listView $dataReader, $itemView|header: 'Users'}
+        </code-block>
+    </chapter>
 </topic>

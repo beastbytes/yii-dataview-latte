@@ -5,5 +5,59 @@
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
        title="GridView" id="GridView">
 
-    <p>Start typing here...</p>
+    <p>
+        The <b>gridView</b> tag represents a
+        <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/GridView.php">GridView widget</a>>.
+        It displays data in a grid layout,
+        the columns of which are defined by the enclosed <i>column</i> tags.
+    </p>
+
+    <chapter title="Parameters" id="parameters">
+        <p>
+            The <b>gridView</b> tag has one parameter:
+        </p>
+
+        <table>
+            <tr>
+                <td>Parameter</td>
+                <td>Type</td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td>$dataReader</td>
+                <td>Yiisoft\Data\Reader\ReadableDataInterface</td>
+                <td>An instance of ReadableDataInterface.</td>
+            </tr>
+        </table>
+    </chapter>
+
+    <chapter title="Configuration" id="configuration">
+        <p>
+            The <b>gridView</b> tag can be configured using the Latte filter syntax.
+            A configuration <i>filter</i> has the name of the GridView configuration method
+            and accepts the same type as the method's parameter;
+            e.g. <code>{gridView $data|header: 'Users'}</code> will set the header of the GridView.
+        </p>
+    </chapter>
+
+    <chapter title="Usage" id="usage">
+        <code-block lang="latte">
+            {varType Yiisoft\Data\Reader\ReadableDataInterface $dataReader}
+
+            {gridView $dataReader|header: 'Users'}
+                {serialColumn}
+                {dataColumn 'id'}
+                {dataColumn 'username'}
+                {dataColumn 'email'}
+                {dataColumn 'created_at'}
+                {checkboxColumn}
+                {radioColumn}
+                {actionColumn}
+                    {actionButton 'View'}
+                    {actionButton 'Edit'}
+                    {actionButton 'Delete'}
+                {/actionColumn}
+            {/gridView}
+        </code-block>
+    </chapter>
 </topic>
