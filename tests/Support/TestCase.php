@@ -30,8 +30,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         FileHelper::ensureDirectory(self::CACHE_DIR);
         FileHelper::ensureDirectory(self::TEMPLATE_DIR);
 
-        self::$data = require self::DATA_DIR . DIRECTORY_SEPARATOR . self::DATA_FILE
-        ;
+        self::$data = require self::DATA_DIR . DIRECTORY_SEPARATOR . self::DATA_FILE;
         self::$fields = array_keys(self::$data[0]);
         self::$inflector = new Inflector();
         self::$latte = (new LatteFactory(

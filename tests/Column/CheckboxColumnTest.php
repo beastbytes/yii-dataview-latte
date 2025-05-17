@@ -22,7 +22,8 @@ final class CheckboxColumnTest extends TestCase
         $rows = [];
 
         foreach (self::$data as $i => $data) {
-            $rows[] = sprintf(<<<'ROW'
+            $rows[] = sprintf(
+                <<<'ROW'
                 <tr>
                 <td><input type="checkbox" name="checkbox-selection" value="%d"></td>
                 </tr>
@@ -31,7 +32,8 @@ final class CheckboxColumnTest extends TestCase
             );
         }
 
-        $expected = sprintf(<<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <table>
             <thead>
@@ -72,7 +74,8 @@ final class CheckboxColumnTest extends TestCase
         $rows = [];
 
         foreach (self::$data as $i => $data) {
-            $rows[] = sprintf(<<<'ROW'
+            $rows[] = sprintf(
+                <<<'ROW'
                 <tr>
                 <td class="checkbox"><input type="checkbox" name="checkbox" value="%d"></td>
                 </tr>
@@ -81,7 +84,8 @@ final class CheckboxColumnTest extends TestCase
             );
         }
 
-        $expected = sprintf(<<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <table>
             <thead>

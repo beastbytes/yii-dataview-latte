@@ -22,7 +22,8 @@ final class RadioColumnTest extends TestCase
         $rows = [];
 
         foreach (self::$data as $i => $data) {
-            $rows[] = sprintf(<<<'ROW'
+            $rows[] = sprintf(
+                <<<'ROW'
                 <tr>
                 <td><input type="radio" name="radio-selection" value="%d"></td>
                 </tr>
@@ -31,7 +32,8 @@ final class RadioColumnTest extends TestCase
             );
         }
 
-        $expected = sprintf(<<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <table>
             <thead>
@@ -72,7 +74,8 @@ final class RadioColumnTest extends TestCase
         $rows = [];
 
         foreach (self::$data as $i => $data) {
-            $rows[] = sprintf(<<<'ROW'
+            $rows[] = sprintf(
+                <<<'ROW'
                 <tr>
                 <td class="radio"><input type="radio" name="radio" value="%d"></td>
                 </tr>
@@ -81,7 +84,8 @@ final class RadioColumnTest extends TestCase
             );
         }
 
-        $expected = sprintf(<<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <table>
             <thead>
