@@ -5,89 +5,95 @@ declare(strict_types=1);
 namespace BeastBytes\Yii\DataView\Latte\Node;
 
 use Generator;
-use Latte\Compiler\Node;
+use Latte\Compiler\Nodes\Php\Expression\ClosureNode;
+use Latte\Compiler\Nodes\Php\Expression\VariableNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
-use Latte\Compiler\Nodes\Php\FilterNode;
 use Latte\Compiler\Nodes\Php\IdentifierNode;
-use Latte\Compiler\Nodes\Php\ModifierNode;
+use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
 
 class ListViewNode extends StatementNode
 {
-    public ?ModifierNode $config = null;
-    public string $configuration = '';
-    public ExpressionNode $dataReader;
-    public ExpressionNode $itemView;
+    use ArgumentTrait;
+    use ConfigurationTrait;
+
     private IdentifierNode $name;
 
     public static function create(Tag $tag): self
     {
         $tag->expectArguments();
         $node = $tag->node = new self;
-
         $node->name = new IdentifierNode(ucfirst($tag->name));
-
-        $node->dataReader = $tag->parser->parseExpression();
-        $node->itemView = $tag->parser->parseExpression();
-        $node->config = $tag->parser->parseModifier();
+        $node->arguments = $tag->parser->parseArguments();
+        $node->configuration = $tag->parser->parseModifier();
 
         return $node;
     }
 
     public function print(PrintContext $context): string
     {
-        $this->parseConfiguration($context);
+        $itemView = $this->getItemView();
+
+        if ($itemView instanceof VariableNode) {
+            return $context->format(
+                <<<'MASK'
+                if (is_string(%node)) { %line
+                    echo Yiisoft\Yii\DataView\%node::widget()
+                        ->dataReader(%node)
+                        ->itemView(%node)
+                    %raw
+                    ;
+                } else {
+                    echo Yiisoft\Yii\DataView\%node::widget()
+                        ->dataReader(%node)
+                        ->itemCallback(%node)
+                    %raw
+                    ;
+                }
+                MASK,
+                $this->getItemView(),
+                $this->position,
+                $this->name,
+                $this->getDataReader(),
+                $this->getItemView(),
+                $this->parseConfiguration($context),
+                $this->name,
+                $this->getDataReader(),
+                $this->getItemView(),
+                $this->parseConfiguration($context)
+            );
+        }
+
+        if ($itemView instanceof StringNode) {
+            $mask = <<<'MASK'
+                echo Yiisoft\Yii\DataView\%node::widget() %line
+                    ->dataReader(%node)
+                    ->itemView(%node)
+                %raw
+                ;
+                MASK
+            ;
+        } else { // ClosureNode
+            $mask = <<<'MASK'
+                echo Yiisoft\Yii\DataView\%node::widget() %line
+                    ->dataReader(%node)
+                    ->itemCallback(%node)
+                %raw
+                ;
+                MASK
+            ;
+        }
 
         return $context->format(
-            <<<'MASK'
-            echo 'Yiisoft\Yii\DataView\%node::widget()' %line;
-            echo "\n";
-            echo '    ->dataReader(%node)';
-            echo "\n";
-            echo '    ->itemView(%node)';
-            echo "\n";
-            echo '%raw';
-            echo ';';
-            MASK,
+            $mask,
             $this->name,
             $this->position,
-            $this->dataReader,
-            $this->itemView,
-            $this->configuration,
+            $this->getDataReader(),
+            $this->getItemView(),
+            $this->parseConfiguration($context)
         );
-    }
-
-    private function parseConfiguration($context): void
-    {
-        $configuration = [];
-
-        /** @var FilterNode $config */
-        foreach ($this->config as $config) {
-            $name = '';
-            $atr = [];
-
-            foreach ($config as $c) {
-                if ($c instanceof IdentifierNode) {
-                    $name = (string) $c;
-                } else {
-                    $atr[] = $c;
-                }
-            }
-
-            if (empty($atr)) {
-                $configuration[$name] = '';
-            } else {
-                foreach ($atr as $a) {
-                    $configuration[$name] = $a instanceof Node ? $a->print($context) : '';
-                }
-            }
-        }
-
-        foreach ($configuration as $modifier => $value) {
-            $this->configuration .= "->$modifier($value)";
-        }
     }
 
     /**
@@ -96,7 +102,17 @@ class ListViewNode extends StatementNode
     public function &getIterator(): Generator
     {
         yield $this->name;
-        yield $this->dataReader;;
-        yield $this->itemView;
+        yield $this->getDataReader();
+        yield $this->getItemView();
+    }
+
+    private function getDataReader(): ExpressionNode
+    {
+        return $this->arguments->items[0]->value;
+    }
+
+    private function getItemView(): ExpressionNode
+    {
+        return $this->arguments->items[1]->value;
     }
 }
