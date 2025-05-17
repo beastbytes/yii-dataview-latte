@@ -10,7 +10,6 @@ use Latte\Engine;
 use PHPUnit\Framework\Attributes\AfterClass;
 use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Data\Reader\ReadableDataInterface;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Strings\Inflector;
 
