@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Tests;
+namespace BeastBytes\Yii\DataView\Latte\Tests\Support;
 
 use BeastBytes\View\Latte\LatteFactory;
 use BeastBytes\Yii\DataView\Latte\DataViewExtension;
 use Latte\Engine;
 use PHPUnit\Framework\Attributes\AfterClass;
 use PHPUnit\Framework\Attributes\BeforeClass;
-use PHPUnit\Framework\TestCase;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Strings\Inflector;
 
-abstract class TestBase extends TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected const CACHE_DIR = __DIR__ . '/generated/cache';
     protected const TEMPLATE_DIR = __DIR__ . '/generated/template';
+    private const DATA_DIR = __DIR__ . '/data';
+    private const DATA_FILE = 'data.php';
 
     protected static array $data = [];
     protected static array $fields = [];
@@ -29,7 +30,8 @@ abstract class TestBase extends TestCase
         FileHelper::ensureDirectory(self::CACHE_DIR);
         FileHelper::ensureDirectory(self::TEMPLATE_DIR);
 
-        self::$data = require __DIR__ . '/resources/data.php';
+        self::$data = require self::DATA_DIR . DIRECTORY_SEPARATOR . self::DATA_FILE
+        ;
         self::$fields = array_keys(self::$data[0]);
         self::$inflector = new Inflector();
         self::$latte = (new LatteFactory(

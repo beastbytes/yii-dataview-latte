@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Tests;
+namespace BeastBytes\Yii\DataView\Latte\Tests\Support;
 
 use PHPUnit\Framework\Attributes\BeforeClass;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Iterable\IterableDataReader;
 use Yiisoft\Data\Reader\ReadableDataInterface;
 
-abstract class DataViewTest extends TestBase
+trait DataReaderTrait
 {
     protected static ReadableDataInterface $dataReader;
 
