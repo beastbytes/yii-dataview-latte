@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="w"
+                 name="Yii DataView Latte"
+                 start-page="Yii-DataView-Latte.topic">
+
+    <toc-element topic="Yii-DataView-Latte.topic"/>
+    <toc-element topic="DetailView.topic"/>
+    <toc-element topic="GridView.topic"/>
+    <toc-element topic="ListView.topic"/>
+    <toc-element topic="DataField.topic"/>
+    <toc-element topic="ActionButton.topic"/>
+    <toc-element topic="ActionColumn.topic"/>
+    <toc-element topic="CheckboxColumn.topic"/>
+    <toc-element topic="DataColumn.topic"/>
+    <toc-element topic="RadioColumn.topic"/>
+    <toc-element topic="SerialColumn.topic"/>
+</instance-profile>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Yii DataView Latte" id="Yii-DataView-Latte">
+
+    <p>
+        Yii DataView Latte is a <a href="https://latte.nette.org/">Latte Extension</a>
+        that integrates the <a href="https://github.com/yiisoft">Yii3 DataView</a> package
+        with the <a href="https://github.com/beastbytes/view-latte">View Latte</a> view renderer,
+        simplifying the use of DataView widgets in Latte templates.
+    </p>
+    <p>
+        The extension adds Latte tags for DataView widgets, including DataView fields, buttons, and columns.
+    </p>
+    <chapter title="Supported DataView Items" id="supported-dataview-items">
+        <p>The following DataView widgets are supported:</p>
+        <list>
+            <li><a href="DetailView.topic"/></li>
+            <li><a href="GridView.topic"/></li>
+            <li><a href="ListView.topic"/></li>
+        </list>
+        <p>For DetailView, the following Fields are supported:</p>
+        <list>
+            <li><a href="DataField.topic"/></li>
+        </list>
+        <p>For GridView, the following Column types are supported:</p>
+        <list>
+            <li><a href="ActionColumn.topic"/></li>
+            <li><a href="CheckboxColumn.topic"/></li>
+            <li><a href="DataColumn.topic"/></li>
+            <li><a href="RadioColumn.topic"/></li>
+            <li><a href="SerialColumn.topic"/></li>
+        </list>
+        <p>For ActionColumn, the following Button types are supported:</p>
+        <list>
+            <li><a href="ActionButton.topic"/></li>
+        </list>
+    </chapter>
+    <chapter title="Installation" id="installation">
+        <p>Install the extension using Composer:</p>
+        <p>Either:</p>
+        <p><code>composer require beastbytes/yii-dataview-latte</code></p>
+        <p>or add the following to the <code>require</code> section of your composer.json</p>
+        <p><code>"beastbytes/beastbytes/yii-dataview-latte": "{version constraint}"</code></p>
+    </chapter>
+    <chapter title="IDE Support" id="ide-support">
+        <chapter title="IntelliJ IDEA" id="intellij-idea">
+            <p>
+                Install the <a href="https://plugins.jetbrains.com/plugin/24218-latte-support">Latte Support</a>
+                plugin.
+            </p>
+            <p>
+                To register the extension's tags with the plugin, either copy the latte.xml file
+                in the root directory of this package to the .idea directory of your project
+                or merge with an existing latte.xml.
+            </p>.
+        </chapter>
+    </chapter>
+</topic>

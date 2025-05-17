@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="DataField" id="DataField">
+
+    <p>DataField is used with the <a href="DetailView.topic"/> widget.</p>
+
+    <chapter title="Parameters" id="parameters">
+        <p>
+            The dataField tag has the same parameters as
+            <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Field/DataField.php">Yii's DataField</a>,
+            and they are specified in the same way, i.e. in order and/or as named parameters, and accept the same types.
+        </p>
+    </chapter>
+
+    <chapter title="Usage" id="usage">
+        Use as many DataFields as needed within the DetailView.
+
+        <code-block lang="latte">
+            {detailView}
+                {dataField 'id'}
+                {dataField 'username'}
+                {dataField 'email'}
+                {dataField label: 'Created At', value: fn($data) => date('Y-m-d', $data->created_at)}
+            {/detailView}
+        </code-block>
+    </chapter>
+</topic>
