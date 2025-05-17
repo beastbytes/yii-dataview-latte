@@ -14,14 +14,14 @@ final class DataViewExtension extends Extension
         return [
             'actionButton' => Node\Column\ActionButtonNode::create(...),
             'actionColumn' => Node\Column\ActionColumnNode::create(...),
-            'checkboxColumn' => Node\Column\CheckboxColumnNode::create(...),
+            'checkboxColumn' => Node\Column\ColumnNode::create(...),
             'dataColumn' => Node\Column\DataColumnNode::create(...),
             'dataField' => Node\Field\FieldNode::create(...),
             'detailView' => Node\Widget\DetailViewNode::create(...),
             'gridView' => Node\Widget\GridViewNode::create(...),
             'listView' => Node\Widget\ListViewNode::create(...),
-            'radioColumn' => Node\Column\RadioColumnNode::create(...),
-            'serialColumn' => Node\Column\SerialColumnNode::create(...),
+            'radioColumn' => Node\Column\ColumnNode::create(...),
+            'serialColumn' => Node\Column\ColumnNode::create(...),
         ];
     }
 

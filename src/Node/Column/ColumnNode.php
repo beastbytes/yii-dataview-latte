@@ -11,7 +11,7 @@ use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
 
-class SerialColumnNode extends StatementNode
+class ColumnNode extends StatementNode
 {
     use ArgumentTrait;
 
@@ -24,7 +24,6 @@ class SerialColumnNode extends StatementNode
         $node->arguments = $tag->parser->parseArguments();
         return $node;
     }
-
 
     public function print(PrintContext $context): string
     {
