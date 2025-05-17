@@ -176,6 +176,46 @@ final class ListViewTest extends DataViewTest
         );
     }
 
+    #[Test]
+    public function list_view_with_configuration(): void
+    {
+        $expected = <<<'EXPECTED'
+            <div id="list-view">
+            <div>
+            %s
+            </div>
+            <div>Page <b>1</b> of <b>1</b></div>
+            </div>
+            EXPECTED
+        ;
+
+        $items = [];
+        foreach (self::$data as $data) {
+            $items[] = sprintf(
+                <<<'EXPECTED'
+                    <div>
+                    <span class="title">%s</span> by <span class="artist">%s</span>
+                    </div>
+                    EXPECTED,
+                $data['title'],
+                $data['artist']
+            );
+        }
+
+        $expected = sprintf($expected, implode(PHP_EOL, $items));
+
+        $template = '{listView $dataReader, $itemCallback|id: \'list-view\'|itemTag: \'div\'|itemListTag: \'div\'}';
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            $template,
+            [
+                'itemCallback' => fn($context) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $context->data['title'], $context->data['artist'])
+            ],
+            $expected
+        );
+    }
+
     private function assert(string $templateFile, string $template, array $parameters, string $expected): void
     {
         file_put_contents($templateFile, $template);
