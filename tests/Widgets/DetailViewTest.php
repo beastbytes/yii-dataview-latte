@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Tests;
+namespace BeastBytes\Yii\DataView\Latte\Tests\Widgets;
 
+use BeastBytes\Yii\DataView\Latte\Tests\Support\AssertTrait;
+use BeastBytes\Yii\DataView\Latte\Tests\Support\TestCase;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Test;
 
-final class DetailViewTest extends TestBase
+final class DetailViewTest extends TestCase
 {
+    use AssertTrait;
+
     private static array $detail;
     private static string $expectedFields;
     private static string $templateFields;
@@ -24,12 +28,11 @@ final class DetailViewTest extends TestBase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <dt>%s</dt>
-                    <dd>%s</dd>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <dt>%s</dt>
+                <dd>%s</dd>
+                </div>
+                FIELD,
                 $field,
                 self::$detail[$field]
             );
@@ -62,6 +65,9 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
         );
     }
@@ -89,6 +95,9 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
         );
     }
@@ -115,6 +124,9 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
         );
     }
@@ -125,12 +137,11 @@ final class DetailViewTest extends TestBase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div class="field">
-                    <dt>%s</dt>
-                    <dd>%s</dd>
-                    </div>
-                    FIELD
-                ,
+                <div class="field">
+                <dt>%s</dt>
+                <dd>%s</dd>
+                </div>
+                FIELD,
                 $field,
                 self::$detail[$field]
             );
@@ -157,6 +168,9 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
         );
     }
@@ -183,6 +197,9 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
         );
     }
@@ -193,12 +210,11 @@ final class DetailViewTest extends TestBase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <tr>
-                    <th>%s</th>
-                    <td>%s</td>
-                    </tr>
-                    FIELD
-                ,
+                <tr>
+                <th>%s</th>
+                <td>%s</td>
+                </tr>
+                FIELD,
                 $field,
                 self::$detail[$field]
             );
@@ -230,6 +246,9 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
         );
     }
@@ -240,12 +259,11 @@ final class DetailViewTest extends TestBase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <span class="label">%s</span>
-                    <span class="value">%s</span>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <span class="label">%s</span>
+                <span class="value">%s</span>
+                </div>
+                FIELD,
                 $field,
                 self::$detail[$field]
             );
@@ -277,18 +295,10 @@ final class DetailViewTest extends TestBase
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
             $template,
+            [
+                'data' => self::$detail
+            ],
             $expected
-        );
-    }
-
-    private function assert(string $templateFile, string $template, string $expected): void
-    {
-        file_put_contents($templateFile, sprintf($template, self::$templateFields));
-
-        $this->assertSame(
-            sprintf($expected, self::$expectedFields),
-            self::$latte
-                ->renderToString($templateFile, ['data' => self::$detail])
         );
     }
 }

@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Tests;
+namespace BeastBytes\Yii\DataView\Latte\Tests\Field;
 
+use BeastBytes\Yii\DataView\Latte\Tests\Support\AssertTrait;
+use BeastBytes\Yii\DataView\Latte\Tests\Support\TestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\Attributes\Test;
 
-final class FieldTest extends TestBase
+final class DataFieldTest extends TestCase
 {
-    private static $expected = <<<EXPECTED
+    use AssertTrait;
+
+    private const EXPECTED = <<<EXPECTED
         <div>
         <dl>
         %s
@@ -18,7 +22,7 @@ final class FieldTest extends TestBase
         EXPECTED
     ;
 
-    private static $template = <<<'TEMPLATE'
+    private const TEMPLATE = <<<'TEMPLATE'
         {detailView $data}
         %s
         {/detailView}
@@ -43,12 +47,11 @@ final class FieldTest extends TestBase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <dt>%s</dt>
-                    <dd>%s</dd>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <dt>%s</dt>
+                <dd>%s</dd>
+                </div>
+                FIELD,
                 $field,
                 self::$detail[$field]
             );
@@ -57,8 +60,11 @@ final class FieldTest extends TestBase
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            sprintf(self::$template, implode(PHP_EOL, $fields)),
-            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+            sprintf(self::TEMPLATE, implode(PHP_EOL, $fields)),
+            [
+                'data' => self::$detail
+            ],
+            sprintf(self::EXPECTED, implode(PHP_EOL, $expectedFields))
         );
     }
 
@@ -72,12 +78,11 @@ final class FieldTest extends TestBase
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <dt>%s</dt>
-                    <dd>%s</dd>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <dt>%s</dt>
+                <dd>%s</dd>
+                </div>
+                FIELD,
                 $label,
                 self::$detail[$field]
             );
@@ -90,8 +95,11 @@ final class FieldTest extends TestBase
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            sprintf(self::$template, implode(PHP_EOL, $fields)),
-            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+            sprintf(self::TEMPLATE, implode(PHP_EOL, $fields)),
+            [
+                'data' => self::$detail
+            ],
+            sprintf(self::EXPECTED, implode(PHP_EOL, $expectedFields))
         );
     }
 
@@ -106,12 +114,11 @@ final class FieldTest extends TestBase
 
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <dt>%s</dt>
-                    <dd>%s</dd>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <dt>%s</dt>
+                <dd>%s</dd>
+                </div>
+                FIELD,
                 $label,
                 ($field === 'releaseDate'
                     ? date('Y-m-d', strtotime(self::$detail['releaseDate']))
@@ -131,8 +138,11 @@ final class FieldTest extends TestBase
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            sprintf(self::$template, implode(PHP_EOL, $fields)),
-            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+            sprintf(self::TEMPLATE, implode(PHP_EOL, $fields)),
+            [
+                'data' => self::$detail
+            ],
+            sprintf(self::EXPECTED, implode(PHP_EOL, $expectedFields))
         );
     }
 
@@ -147,12 +157,11 @@ final class FieldTest extends TestBase
 
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <dt>%s</dt>
-                    <dd>%s</dd>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <dt>%s</dt>
+                <dd>%s</dd>
+                </div>
+                FIELD,
                 $label,
                 ($field === 'releaseDate'
                     ? date('Y-m-d', strtotime(self::$detail['releaseDate']))
@@ -171,8 +180,11 @@ final class FieldTest extends TestBase
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            sprintf(self::$template, implode(PHP_EOL, $fields)),
-            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+            sprintf(self::TEMPLATE, implode(PHP_EOL, $fields)),
+            [
+                'data' => self::$detail
+            ],
+            sprintf(self::EXPECTED, implode(PHP_EOL, $expectedFields))
         );
     }
 
@@ -186,12 +198,11 @@ final class FieldTest extends TestBase
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <span>%s</span>
-                    <span>%s</span>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <span>%s</span>
+                <span>%s</span>
+                </div>
+                FIELD,
                 $label,
                 self::$detail[$field]
             );
@@ -206,8 +217,11 @@ final class FieldTest extends TestBase
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            sprintf(self::$template, implode(PHP_EOL, $fields)),
-            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
+            sprintf(self::TEMPLATE, implode(PHP_EOL, $fields)),
+            [
+                'data' => self::$detail
+            ],
+            sprintf(self::EXPECTED, implode(PHP_EOL, $expectedFields))
         );
     }
 
@@ -221,12 +235,11 @@ final class FieldTest extends TestBase
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                    <div>
-                    <span class="label">%s</span>
-                    <span class="value">%s</span>
-                    </div>
-                    FIELD
-                ,
+                <div>
+                <span class="label">%s</span>
+                <span class="value">%s</span>
+                </div>
+                FIELD,
                 $label,
                 self::$detail[$field]
             );
@@ -243,19 +256,11 @@ final class FieldTest extends TestBase
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            sprintf(self::$template, implode(PHP_EOL, $fields)),
-            sprintf(self::$expected, implode(PHP_EOL, $expectedFields))
-        );
-    }
-
-    private function assert(string $templateFile, string $template, string $expected): void
-    {
-        file_put_contents($templateFile, $template);
-
-        $this->assertSame(
-            $expected,
-            self::$latte
-                ->renderToString($templateFile, ['data' => self::$detail])
+            sprintf(self::TEMPLATE, implode(PHP_EOL, $fields)),
+            [
+                'data' => self::$detail
+            ],
+            sprintf(self::EXPECTED, implode(PHP_EOL, $expectedFields))
         );
     }
 }

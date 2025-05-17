@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Tests;
+namespace BeastBytes\Yii\DataView\Latte\Tests\Column;
 
+use BeastBytes\Yii\DataView\Latte\Tests\Support\TestCase;
 use Closure;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
-final class ColumnTest extends TestBase
+final class ColumnTest extends TestCase
 {
     #[Test]
-    #[DataProvider('actionButtonProvider')]
-    public function actionButton(string $content, string $url, string $expected): void
+    public function actionButton(): void
     {
         $templateFile = $this->createActionButtonTemplate($content, $url);
 
