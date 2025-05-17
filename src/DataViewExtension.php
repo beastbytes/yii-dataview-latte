@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BeastBytes\Yii\DataView\Latte;
 
+use Latte\Compiler\Nodes\TemplateNode;
 use Latte\Engine;
 use Latte\Extension;
 
