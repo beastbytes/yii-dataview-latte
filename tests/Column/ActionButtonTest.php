@@ -73,7 +73,7 @@ final class ActionButtonTest extends TestCase
     }
 
     #[Test]
-    public function action_button_with_multiple_buttons(): void
+    public function action_button_with_named_arguments(): void
     {
         $rows = [];
 
@@ -83,14 +83,10 @@ final class ActionButtonTest extends TestCase
                 <tr>
                 <td>
                 %s
-                %s
-                %s
                 </td>
                 </tr>
                 ROW,
-                '<a href="/admin/user/view?id=' . $data['id'] . '">View</a>',
-                '<a href="/admin/user/update?id=' . $data['id'] . '">Edit</a>',
-                '<a href="/admin/user/delete?id=' . $data['id'] . '">Delete</a>',
+                '<a href="/admin/user/view?id=' . $data['id'] . '">View</a>'
             );
         }
 
@@ -116,9 +112,7 @@ final class ActionButtonTest extends TestCase
         $template = <<<'TEMPLATE'
             {gridView $dataReader}
                 {actionColumn}
-                    {actionButton 'view', 'View'}
-                    {actionButton 'update', 'Edit'}
-                    {actionButton 'delete', 'Delete'}
+                    {actionButton content: 'View',  name: 'view'}
                 {/actionColumn}
             {/gridView}
             TEMPLATE
