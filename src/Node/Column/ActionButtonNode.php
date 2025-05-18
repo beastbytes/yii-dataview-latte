@@ -17,7 +17,6 @@ class ActionButtonNode extends StatementNode
 {
     use ArgumentTrait;
 
-    public StringNode $buttonName;
     public IdentifierNode $name;
 
     public static function create(Tag $tag): self
@@ -26,7 +25,6 @@ class ActionButtonNode extends StatementNode
         $node = $tag->node = new self;
         $node->name = new IdentifierNode(ucfirst($tag->name));
         $node->arguments = $tag->parser->parseArguments();
-        $node->buttonName = array_shift($node->arguments->items)->value;
         return $node;
     }
 
@@ -36,19 +34,33 @@ class ActionButtonNode extends StatementNode
             <<<'MASK'
             %node => new Yiisoft\Yii\DataView\Column\%node(%raw), %line
             MASK,
-            $this->buttonName,
+            $this->getButtonName(),
             $this->name,
             $this->parseArguments($context),
             $this->position,
         );
     }
 
+    private function getButtonName(): StringNode
+    {
+        foreach ($this->arguments->items as $n => $item) {
+            if ($item->key->name === 'name') {
+                /** @var StringNode $name */
+                $name = $item->value;
+                unset($this->arguments->items[$n]);
+                return $name;
+            }
+        }
+
+        return array_shift($this->arguments->items)->value;
+    }
+
+
     /**
      * @inheritDoc
      */
     public function &getIterator(): Generator
     {
-        yield $this->buttonName;
         yield $this->name;
         yield $this->arguments;
     }
