@@ -53,9 +53,9 @@
                 {checkboxColumn}
                 {radioColumn}
                 {actionColumn}
-                    {actionButton 'View'}
-                    {actionButton 'Edit'}
-                    {actionButton 'Delete'}
+                    {actionButton 'view', 'View'}
+                    {actionButton 'update', 'Edit'}
+                    {actionButton content: 'Delete', name: 'delete}
                 {/actionColumn}
             {/gridView}
         </code-block>
