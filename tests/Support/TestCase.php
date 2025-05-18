@@ -14,8 +14,8 @@ use Yiisoft\Strings\Inflector;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    protected const CACHE_DIR = __DIR__ . '/generated/cache';
-    protected const TEMPLATE_DIR = __DIR__ . '/generated/template';
+    protected const CACHE_DIR = __DIR__ . '/../generated/cache';
+    protected const TEMPLATE_DIR = __DIR__ . '/../generated/template';
     private const DATA_DIR = __DIR__ . '/data';
     private const DATA_FILE = 'data.php';
 
