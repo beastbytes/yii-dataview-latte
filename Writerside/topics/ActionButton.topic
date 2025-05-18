@@ -13,9 +13,16 @@
 
     <chapter title="Parameters" id="parameters">
         <p>
-            The <b>actionButton</b> tag has the same parameters as
+            The <b>actionButton</b> tag adds a parameter to the
+            <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Column/ActionButton.php">ActionButton</a>
+            parameters; the name of the button.
+            It can be specified as a named parameter &ndash; <code>name:</code> &ndash; or be the first parameter.
+            It is used as the <i>key</i> of the <i>buttons</i> array in the column definition.
+        </p>
+        <p>
+            All other parameters are the same as for
             <a href="https://github.com/yiisoft/yii-dataview/blob/master/src/Column/ActionButton.php">ActionButton</a>,
-            and they are specified in the same way, i.e. in order and/or as named parameters, and accept the same types.
+            and are specified in the same way, i.e. in order and/or as named parameters, and accept the same types.
         </p>
     </chapter>
 
