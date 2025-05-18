@@ -20,5 +20,11 @@
         </p>
     </chapter>
 
-    <include from="GridView.topic" element-id="usage"/>
+    <chapter title="Usage" id="usage">
+        <p>
+            The <b>actionColumn</b> tag encloses <b>actionButton</b> tags.
+        </p>
+
+        <include from="GridView.topic" element-id="code"/>
+    </chapter>
 </topic>

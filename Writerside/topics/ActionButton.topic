@@ -26,5 +26,16 @@
         </p>
     </chapter>
 
-    <include from="GridView.topic" element-id="usage"/>
+    <chapter title="Usage" id="usage">
+        <p>
+            Note the <b>actionButton</b> tags.
+        </p>
+        <list>
+            <li>The first and second use positional parameters.</li>
+            <li>The second shows that the button name and content need not be the same.</li>
+            <li>The third uses named parameters.</li>
+        </list>
+
+        <include from="GridView.topic" element-id="code"/>
+    </chapter>
 </topic>

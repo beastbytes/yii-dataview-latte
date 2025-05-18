@@ -41,7 +41,11 @@
     </chapter>
 
     <chapter title="Usage" id="usage">
-        <code-block lang="latte">
+        <p>
+            The <b>gridView</b> tag encloses <b>xColumn</b> tags.
+        </p>
+
+        <code-block lang="latte" id="code">
             {varType Yiisoft\Data\Reader\ReadableDataInterface $dataReader}
 
             {gridView $dataReader|header: 'Users'}

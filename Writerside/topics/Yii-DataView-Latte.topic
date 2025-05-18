@@ -12,7 +12,8 @@
         simplifying the use of DataView widgets in Latte templates.
     </p>
     <p>
-        The extension adds Latte tags for DataView widgets, including DataView fields, buttons, and columns.
+        The extension adds Latte tags for DataView widgets (DetailView, GridView, and ListView),
+        DataField, columns (ActionColumn, CheckboxColumn, DataColumn, RadioColumn, SerialColumn), and ActionButton.
     </p>
     <chapter title="Supported DataView Items" id="supported-dataview-items">
         <p>The following DataView widgets are supported:</p>

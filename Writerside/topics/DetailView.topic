@@ -42,7 +42,9 @@
     </chapter>
 
     <chapter title="Usage" id="usage">
-        Use as many DataFields as needed within the DetailView.
+        <p>
+            The <b>detailView</b> tag encloses <b>dataField</b> tags.
+        </p>
 
         <code-block lang="latte">
             {varType array|object $data}
