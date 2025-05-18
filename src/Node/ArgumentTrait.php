@@ -10,7 +10,7 @@ use Latte\Compiler\PrintContext;
 
 trait ArgumentTrait
 {
-    private ArrayNode $arguments;
+    public ArrayNode $arguments;
 
     private function parseArguments(PrintContext $context): string
     {
