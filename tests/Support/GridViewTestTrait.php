@@ -10,7 +10,6 @@ use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Paginator\PageToken;
 use Yiisoft\Data\Reader\Iterable\IterableDataReader;
 use Yiisoft\Data\Reader\Sort;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Reference;
 use Yiisoft\Di\Container;
 use Yiisoft\Di\ContainerConfig;
@@ -69,7 +68,7 @@ trait GridViewTestTrait
     private function config(): array
     {
         $currentRoute = new CurrentRoute();
-        $currentRoute->setRouteWithArguments(Route::get('/admin/user')->name('admin_user'), []);
+        $currentRoute->setRouteWithArguments(Route::get('/admin/user')->name('admin/user'), []);
 
         return [
             CurrentRoute::class => $currentRoute,
