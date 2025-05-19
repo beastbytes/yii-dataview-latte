@@ -137,7 +137,9 @@ final class ListViewTest extends TestCase
 
         $expected = sprintf($expected, implode(PHP_EOL, $items));
 
-        $template = '{listView $dataReader, $itemView}';
+        $template = <<<'TEMPLATE'
+            {listView $dataReader, $itemView}
+            TEMPLATE;
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -178,7 +180,9 @@ final class ListViewTest extends TestCase
 
         $expected = sprintf($expected, implode(PHP_EOL, $items));
 
-        $template = '{listView $dataReader, $itemCallback}';
+        $template =  <<<'TEMPLATE'
+            {listView $dataReader, $itemCallback}
+            TEMPLATE;
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -219,7 +223,9 @@ final class ListViewTest extends TestCase
 
         $expected = sprintf($expected, implode(PHP_EOL, $items));
 
-        $template = '{listView $dataReader, $itemCallback|id: \'list-view\'|itemTag: \'div\'|itemListTag: \'div\'}';
+        $template = <<<'TEMPLATE'
+            {listView $dataReader, $itemCallback|id: 'list-view'|itemTag: 'div'|itemListTag: 'div'}
+            TEMPLATE;
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
