@@ -68,7 +68,7 @@ trait GridViewTestTrait
     private function config(): array
     {
         $currentRoute = new CurrentRoute();
-        $currentRoute->setRouteWithArguments(Route::get('/admin/user')->name('admin/user'), []);
+        $currentRoute->setRouteWithArguments(Route::get('/admin/record')->name('admin/record'), []);
 
         return [
             CurrentRoute::class => $currentRoute,

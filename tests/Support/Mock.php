@@ -50,10 +50,10 @@ final class Mock extends TestCase
     ): UrlGeneratorInterface {
         if ($routes === []) {
             $routes = [
-                Route::get('/admin/user')->name('admin/user'),
-                Route::get('/admin/user/delete')->name('admin/user/delete'),
-                Route::get('/admin/user/update')->name('admin/user/update'),
-                Route::get('/admin/user/view')->name('admin/user/view'),
+                Route::get('/admin/record')->name('admin/record'),
+                Route::get('/admin/record/delete')->name('admin/record/delete'),
+                Route::get('/admin/record/update')->name('admin/record/update'),
+                Route::get('/admin/record/view')->name('admin/record/view'),
             ];
         }
 
