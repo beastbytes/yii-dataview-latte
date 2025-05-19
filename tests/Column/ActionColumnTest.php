@@ -25,10 +25,12 @@ final class ActionColumnTest extends TestCase
             $rows[] = sprintf(
                 <<<'ROW'
                 <tr>
-                <td>%d</td>
+                <td>
+                %s
+                </td>
                 </tr>
                 ROW,
-                $i + 1
+                '<a href="/admin/record/view?id=' . $data['id'] . '">View</a>'
             );
         }
 
@@ -38,7 +40,7 @@ final class ActionColumnTest extends TestCase
             <table>
             <thead>
             <tr>
-            <th>#</th>
+            <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -53,7 +55,6 @@ final class ActionColumnTest extends TestCase
 
         $template = <<<'TEMPLATE'
             {gridView $dataReader}
-                {actionColumn}
                 {actionColumn}
                     {actionButton content: 'View',  name: 'view'}
                 {/actionColumn}
@@ -80,10 +81,12 @@ final class ActionColumnTest extends TestCase
             $rows[] = sprintf(
                 <<<'ROW'
                 <tr>
-                <td class="action">%d</td>
+                <td class="action">
+                %s
+                </td>
                 </tr>
                 ROW,
-                $i + 1
+                '<a href="/admin/record/view?id=' . $data['id'] . '">View</a>'
             );
         }
 
@@ -109,6 +112,8 @@ final class ActionColumnTest extends TestCase
         $template = <<<'TEMPLATE'
             {gridView $dataReader}
                 {actionColumn header: 'Index', bodyAttributes: ['class' => 'action']}
+                    {actionButton content: 'View',  name: 'view'}
+                {/actionColumn}
             {/gridView}
             TEMPLATE
         ;
