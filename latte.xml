@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LattePluginSettings">
+    <customMacroSettings>
+      <list>
+        <LatteTagSettings AllowedModifiers="true" Arguments="string $name, Closure|string|Stringable $content, Closure|string|null $url, Closure|array|null $attributes, Closure|string|array|null|false $class, string|null $title, bool $overrideAttributes" DeprecatedMessage="" MacroName="actionButton" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="?string $template, ?string $before, ?string $after, mixed $urlConfig, ?callable $urlCreator, ?string $header, ?string $footer, mixed $content, ?array $buttons, ?array $visibleButtons, array $columnAttributes, array $headerAttributes, array $bodyAttributes, array $footerAttributes, bool $visible" DeprecatedMessage="" MacroName="actionColumn" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="?string $header, ?string $footer, array $columnAttributes, array $headerAttributes, array $bodyAttributes, array $inputAttributes, ?string $name, bool $multiple, ?Closure $content, readonly bool $visible," DeprecatedMessage="" MacroName="checkboxColumn" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="?string $property, ?string $field, ?string $header, bool $encodeHeader, ?string $footer, array $columnAttributes, array $headerAttributes, mixed $bodyAttributes, bool $withSorting, string|Stringable|int|float|callable|null $content, bool|null $encodeContent, ?string $dateTimeFormat, bool|array|FilterWidget $filter, string|FilterFactoryInterface|null $filterFactory, array|RuleInterface|null $filterValidation, bool|callable|null $filterEmpty, bool $visible, ?string $columnClass, ?string $headerClass, ?string $bodyClass," DeprecatedMessage="" MacroName="dataColumn" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="string $name, string $label, array|Closure $labelAttributes, string $labelTag, string|Stringable|int|float|Closure|null $value, string $valueTag, array|Closure $valueAttributes, bool $encodeValue," DeprecatedMessage="" MacroName="dataField" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="array|object $data" DeprecatedMessage="" MacroName="detailView" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="ReadableDataInterface $dataReader" DeprecatedMessage="" MacroName="gridView" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="ReadableDataInterface $dataReader" DeprecatedMessage="" MacroName="listView" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="?string $header, ?string $footer, array $columnAttributes, array $headerAttributes, array $bodyAttributes, public array $inputAttributes, ?string $name, ?Closure $content, bool $visible," DeprecatedMessage="" MacroName="radioColumn" />
+        <LatteTagSettings AllowedModifiers="true" Arguments="?string $header, ?string $footer, array $columnAttributes, array $bodyAttributes, bool $visible," DeprecatedMessage="" MacroName="serialColumn" />
+      </list>
+    </customMacroSettings>
+    <customModifierSettings>
+      <list>
+        <LatteFilterSettings ModifierDescription="GridView, ListView: add column renderer configuration" ModifierHelp="array $configs" ModifierDoubleInsert=":" ModifierName="addColumnRendererConfigs" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: add one or more CSS classes to the `table` tag" ModifierHelp="array $class" ModifierDoubleInsert=":" ModifierName="addTableClass" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: add one or more CSS classes to the `tbody` tag" ModifierHelp="array $class" ModifierDoubleInsert=":" ModifierName="addTbodyClass" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: a function that is called after rendering each item" ModifierHelp="Closure $callback" ModifierDoubleInsert=":" ModifierName="afterItem" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: a callback that is executed once after rendering each data row" ModifierHelp="Closure|null $callback" ModifierDoubleInsert=":" ModifierName="afterRow" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML content to be added before the closing container tag" ModifierHelp="string|Stringable $append" ModifierDoubleInsert=":" ModifierName="append" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML attributes for the container tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="attributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: a function that is called before rendering each item" ModifierHelp="Closure $callback" ModifierDoubleInsert=":" ModifierName="beforeItem" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: a callback that is executed once before rendering each data row" ModifierHelp="Closure|null $callback" ModifierDoubleInsert=":" ModifierName="beforeRow" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the `td` tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="bodyCellAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for body rows of the grid" ModifierHelp="Closure|array $attributes" ModifierDoubleInsert=":" ModifierName="bodyRowAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: enable column grouping" ModifierHelp="bool $enabled = true" ModifierDoubleInsert=":" ModifierName="columnGrouping" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for container" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="containerAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: container HTML tag" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="containerTag" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML to display when the content is empty" ModifierHelp="string $content" ModifierDoubleInsert=":" ModifierName="emptyCell" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for an empty cell" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="emptyCellAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: empty text" ModifierHelp="string $emptyText" ModifierDoubleInsert=":" ModifierName="emptyText" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the empty text" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="emptyTextAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: show the footer section of the grid" ModifierHelp="" ModifierDoubleInsert=":" ModifierName="enableFooter" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: show the header section of the grid" ModifierHelp="" ModifierDoubleInsert=":" ModifierName="enableHeader" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML attributes for the field container tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="fieldAttributes" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML attributes for the field list" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="fieldListAttributes" />
+        <LatteFilterSettings ModifierDescription="DetailView: field template" ModifierHelp="string $template" ModifierDoubleInsert=":" ModifierName="fieldTemplate" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the filter cell (`td`) tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="filterCellAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: CSS class to be added to filter cells that contain invalid values" ModifierHelp="?string $class" ModifierDoubleInsert=":" ModifierName="filterCellInvalidClass" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the filter errors container" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="filterErrorsContainerAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the filter form" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="filterFormAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for footer row" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="footerRowAttributes" />
+        <LatteFilterSettings ModifierDescription="DetailView, GridView, ListView: header content" ModifierHelp="string $content" ModifierDoubleInsert=":" ModifierName="header" />
+        <LatteFilterSettings ModifierDescription="DetailView: header content" ModifierHelp="string $content" ModifierDoubleInsert=":" ModifierName="header" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the header" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="headerAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the `th` tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="headerCellAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the header row" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="headerRowAttributes" />
+        <LatteFilterSettings ModifierDescription="DetailView, GridView, ListView: CSS id of the data view" ModifierHelp="string $id" ModifierDoubleInsert=":" ModifierName="id" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: whether to ignore missing pages" ModifierHelp="bool $enabled" ModifierDoubleInsert=":" ModifierName="ignoreMissingPage" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for list item" ModifierHelp="array|Closure $attributes" ModifierDoubleInsert=":" ModifierName="itemAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the item list" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="itemListAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML tag for the item list" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="itemListTag" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML tag for the list item" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="itemTag" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: additional parameters for the view" ModifierHelp="array $parameters" ModifierDoubleInsert=":" ModifierName="itemViewParameters" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: whether to keep the current page when sorting is changed" ModifierHelp="bool $enabled = true" ModifierDoubleInsert=":" ModifierName="keepPageOnSort" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: configuration for keyset pagination widget" ModifierHelp="array $config" ModifierDoubleInsert=":" ModifierName="keysetPaginationConfig" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML attributes for the field label" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="labelAttributes" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML tag for the label" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="labelTag" />
+        <LatteFilterSettings ModifierDescription="DetailView: label template" ModifierHelp="string $template" ModifierDoubleInsert=":" ModifierName="labelTemplate" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: layout of the data view" ModifierHelp="string $view" ModifierDoubleInsert=":" ModifierName="layout" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: enable multi-sorting" ModifierHelp="" ModifierDoubleInsert=":" ModifierName="multiSort" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: configuration for offset pagination widget" ModifierHelp="array $config" ModifierDoubleInsert=":" ModifierName="offsetPaginationConfig" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: callback run if a page is not found" ModifierHelp="callable $callback" ModifierDoubleInsert=":" ModifierName="pageNotFoundExceptionCallback" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: name of argument or query parameter for page" ModifierHelp="string $name" ModifierDoubleInsert=":" ModifierName="pageParameterName" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for page size wrapper tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="pageSizeAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: a page size constraint" ModifierHelp="array|int|bool $pageSizeConstraint" ModifierDoubleInsert=":" ModifierName="pageSizeConstraint" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: name of argument or query parameter for page size" ModifierHelp="string $name" ModifierDoubleInsert=":" ModifierName="pageSizeParameterName" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: page size HTML tag" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="pageSizeTag" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: page size template" ModifierHelp="string $template" ModifierDoubleInsert=":" ModifierName="pageSizeTemplate" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: page size widget" ModifierHelp="PageSizeWidgetInterface $widget" ModifierDoubleInsert=":" ModifierName="pageSizeWidget" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: pagination widget" ModifierHelp="PaginationWidgetInterface $widget" ModifierDoubleInsert=":" ModifierName="paginationWidget" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML content to be added after the opening container tag" ModifierHelp="string|Stringable $prepend" ModifierDoubleInsert=":" ModifierName="prepend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: parameter name for previous page" ModifierHelp="string $name" ModifierDoubleInsert=":" ModifierName="previousPageParameterName" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: separator between the items" ModifierHelp="string $separator" ModifierDoubleInsert=":" ModifierName="separator" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: content to be appended to sortable column headers" ModifierHelp="string|Stringable $content" ModifierDoubleInsert=":" ModifierName="sortableHeaderAppend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: content to be appended to ascending sorted column headers" ModifierHelp="string|Stringable $content" ModifierDoubleInsert=":" ModifierName="sortableHeaderAscAppend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: content to be prepended to ascending sorted column headers" ModifierHelp="string|Stringable $content" ModifierDoubleInsert=":" ModifierName="sortableHeaderAscPrepend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: content to be appended to ascending sorted column headers" ModifierHelp="string|Stringable $content" ModifierDoubleInsert=":" ModifierName="sortableHeaderDescAppend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: content to be appended to descending sorted column headers" ModifierHelp="string|Stringable $content" ModifierDoubleInsert=":" ModifierName="sortableHeaderDescPrepend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: content to be prepended to sortable column headers" ModifierHelp="string|Stringable $content" ModifierDoubleInsert=":" ModifierName="sortableHeaderPrepend" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for a link in sortable columns' headers" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="sortableLinkAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for summary wrapper tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="summaryAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: summary HTML tag" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="summaryTag" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: summary template" ModifierHelp="string $template" ModifierDoubleInsert=":" ModifierName="summaryTemplate" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the `table` tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="tableAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: Replace current `table` tag CSS classes with a new set of classes" ModifierHelp="array $class" ModifierDoubleInsert=":" ModifierName="tableClass" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: HTML attributes for the `tbody` tag" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="tbodyAttributes" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: Replace current `tbody` tag CSS classes with a new set of classes" ModifierHelp="array $class" ModifierDoubleInsert=":" ModifierName="tbodyClass" />
+        <LatteFilterSettings ModifierDescription="DetailView: widget template" ModifierHelp="string $template" ModifierDoubleInsert=":" ModifierName="template" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: toolbar content" ModifierHelp="string $content" ModifierDoubleInsert=":" ModifierName="toolbar" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: arguments of the route" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="urlArguments" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: URL creator" ModifierHelp="callable $urlCreator" ModifierDoubleInsert=":" ModifierName="urlCreator" />
+        <LatteFilterSettings ModifierDescription="GridView, ListView: query parameters of the route" ModifierHelp="array $parameters" ModifierDoubleInsert=":" ModifierName="urlQueryParameters" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML attributes for the field value" ModifierHelp="array $attributes" ModifierDoubleInsert=":" ModifierName="valueAttributes" />
+        <LatteFilterSettings ModifierDescription="DetailView: content displayed when the value is `false`" ModifierHelp="string $content" ModifierDoubleInsert=":" ModifierName="valueFalse" />
+        <LatteFilterSettings ModifierDescription="DetailView: HTML tag for the value" ModifierHelp="string $tag" ModifierDoubleInsert=":" ModifierName="valueTag" />
+        <LatteFilterSettings ModifierDescription="DetailView: value template" ModifierHelp="string $template" ModifierDoubleInsert=":" ModifierName="valueTemplate" />
+        <LatteFilterSettings ModifierDescription="DetailView: content displayed when the value is `true`" ModifierHelp="string $content" ModifierDoubleInsert=":" ModifierName="valueTrue" />
+      </list>
+    </customModifierSettings>
+  </component>
+</project>
