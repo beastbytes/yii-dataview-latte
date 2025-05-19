@@ -184,10 +184,10 @@ final class GridViewTest extends TestCase
 
         $expected = sprintf(
             <<<'EXPECTED'
-            <div class="grid-view">
+            <div id="grid-view">
             <div>Greenslade Records</div>
             
-            <table>
+            <table class="grid-table records">
             <thead>
             <tr>
             <th>#</th>
@@ -198,7 +198,7 @@ final class GridViewTest extends TestCase
             <th>Actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="grid-body">
             %s
             </tbody>
             </table>
@@ -209,7 +209,7 @@ final class GridViewTest extends TestCase
         );
 
         $template = <<<'TEMPLATE'
-            {gridView $dataReader|enableHeader: true|header: 'Greenslade Records'|containerAttributes: ['class' => 'grid-view']}
+            {gridView $dataReader|enableHeader: true|header: 'Greenslade Records'|containerAttributes: ['id' => 'grid-view']|addTableClass: ['grid-table', 'records']|addTbodyClass: ['grid-body']}
                 {serialColumn}
                 {dataColumn 'title'}
                 {dataColumn 'recordLabel', header: 'Record Label'}

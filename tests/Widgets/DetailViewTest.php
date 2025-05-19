@@ -46,21 +46,25 @@ final class DetailViewTest extends TestCase
     #[Test]
     public function detail_view(): void
     {
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <dl>
             %s
             </dl>
             </div>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
+        $template = sprintf(
+            <<<'TEMPLATE'
             {detailView $data}
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -75,22 +79,26 @@ final class DetailViewTest extends TestCase
     #[Test]
     public function detail_view_with_header(): void
     {
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <div>Detail View</div>
             <dl>
             %s
             </dl>
             </div>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
+        $template = sprintf(
+            <<<'TEMPLATE'
             {detailView $data|header: '<div>Detail View</div>'}
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -105,21 +113,25 @@ final class DetailViewTest extends TestCase
     #[Test]
     public function detail_view_with_attributes(): void
     {
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div class="detail-view">
             <dl>
             %s
             </dl>
             </div>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
+        $template = sprintf(
+            <<<'TEMPLATE'
             {detailView $data|attributes: ["class" => "detail-view"]}
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -149,21 +161,25 @@ final class DetailViewTest extends TestCase
 
         self::$expectedFields = implode(PHP_EOL, $expectedFields);
 
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <dl>
             %s
             </dl>
             </div>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
-            {detailView $data|fieldAttributes: ["class" => "field"]}
+        $template = sprintf(
+            <<<'TEMPLATE'
+            {detailView $data|fieldAttributes: ['class' => 'field']}
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -178,21 +194,25 @@ final class DetailViewTest extends TestCase
     #[Test]
     public function detail_view_with_field_list_attributes(): void
     {
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <dl class="field-list">
             %s
             </dl>
             </div>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
-            {detailView $data|fieldListAttributes: ["class" => "field-list"]}
+        $template = sprintf(
+            <<<'TEMPLATE'
+            {detailView $data|fieldListAttributes: ['class' => 'field-list']}
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -222,16 +242,19 @@ final class DetailViewTest extends TestCase
 
         self::$expectedFields = implode(PHP_EOL, $expectedFields);
 
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <table>
             <tbody>
             %s
             </tbody>
             </table>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
+        $template = sprintf(
+            <<<'TEMPLATE'
             {detailView $data
                 |fieldTemplate: "<tr>\n{label}\n{value}\n</tr>"
                 |template: "<table>\n<tbody>\n{fields}\n</tbody>\n</table>"
@@ -240,8 +263,9 @@ final class DetailViewTest extends TestCase
             }
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
@@ -271,16 +295,19 @@ final class DetailViewTest extends TestCase
 
         self::$expectedFields = implode(PHP_EOL, $expectedFields);
 
-        $expected = <<<'EXPECTED'
+        $expected = sprintf(
+            <<<'EXPECTED'
             <div>
             <dl>
             %s
             </dl>
             </div>
-            EXPECTED
-        ;
+            EXPECTED,
+            self::$expectedFields
+        );
 
-        $template = <<<'TEMPLATE'
+        $template = sprintf(
+            <<<'TEMPLATE'
             {detailView $data
                 |labelAttributes: ['class' => 'label']
                 |labelTag: 'span'
@@ -289,8 +316,9 @@ final class DetailViewTest extends TestCase
             }
             %s
             {/detailView}
-            TEMPLATE
-        ;
+            TEMPLATE,
+            self::$templateFields
+        );
 
         $this->assert(
             self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
