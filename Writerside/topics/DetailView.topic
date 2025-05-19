@@ -38,6 +38,7 @@
             A configuration <i>filter</i> has the name of the DetailView configuration method
             and accepts the same type as the method's parameter;
             e.g. <code>{detailView $data|header: 'User Details'}</code> will set the header of the DetailView.
+            The exception is methods that have variable-length argument lists; these must be passed as an array.
         </p>
     </chapter>
 

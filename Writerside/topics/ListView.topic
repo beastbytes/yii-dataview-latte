@@ -52,6 +52,7 @@
             A configuration <i>filter</i> has the name of the ListView configuration method
             and accepts the same type as the method's parameter;
             e.g. <code>{listView $data|header: 'Users'}</code> will set the header of the ListView.
+            The exception is methods that have variable-length argument lists; these must be passed as an array.
         </p>
     </chapter>
 
