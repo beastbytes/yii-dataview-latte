@@ -17,19 +17,220 @@ final class GridViewTest extends TestCase
     use GridViewTestTrait;
 
     #[Test]
-    public function gridView(string $expected): void
+    public function grid_view(): void
     {
-        $templateFile = $this->createGridViewTemplate();
+        $rows = [];
 
-        $actual = self::$latte
-            ->renderToString(
-                $templateFile,
-                [
-                    'dataReader' => self::$dataReader,
-                ]
-            )
+        foreach (self::$data as $i => $data) {
+            $rows[] = sprintf(
+                <<<'ROW'
+                <tr>
+                <td>%d</td>
+                </tr>
+                ROW,
+                $i + 1
+            );
+        }
+
+        $expected = sprintf(
+            <<<'EXPECTED'
+            <div>
+            <table>
+            <thead>
+            <tr>
+            <th>#</th>
+            </tr>
+            </thead>
+            <tbody>
+            %s
+            </tbody>
+            </table>
+            <div>Page <b>1</b> of <b>1</b></div>
+            </div>
+            EXPECTED,
+            implode(PHP_EOL, $rows)
+        );
+
+        $template = <<<'TEMPLATE'
+            {gridView $dataReader}
+                {serialColumn}
+            {/gridView}
+            TEMPLATE
         ;
 
-        $this->assertSame($expected, $actual);
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            $template,
+            [
+                'dataReader' => self::$dataReader
+            ],
+            $expected
+        );
+    }
+
+    #[Test]
+    public function grid_view_with_multiple_columns(): void
+    {
+        $rows = [];
+
+        foreach (self::$data as $i => $data) {
+            $rows[] = sprintf(
+                <<<'ROW'
+                <tr>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>
+                %s
+                %s
+                %s
+                </td>
+                </tr>
+                ROW,
+                $i + 1,
+                $data['title'],
+                $data['recordLabel'],
+                $data['catalogueNumber'],
+                date('M Y', strtotime($data['releaseDate'])),
+                '<a href="/admin/record/view?id=' . $data['id'] . '">View</a>',
+                '<a href="/admin/record/update?id=' . $data['id'] . '">Edit</a>',
+                '<a href="/admin/record/delete?id=' . $data['id'] . '">Delete</a>',
+            );
+        }
+
+        $expected = sprintf(
+            <<<'EXPECTED'
+            <div>
+            <table>
+            <thead>
+            <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Record Label</th>
+            <th>Catalogue Number</th>
+            <th>Release Date</th>
+            <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            %s
+            </tbody>
+            </table>
+            <div>Page <b>1</b> of <b>1</b></div>
+            </div>
+            EXPECTED,
+            implode(PHP_EOL, $rows)
+        );
+
+        $template = <<<'TEMPLATE'
+            {gridView $dataReader}
+                {serialColumn}
+                {dataColumn 'title'}
+                {dataColumn 'recordLabel', header: 'Record Label'}
+                {dataColumn 'catalogueNumber', header: 'Catalogue Number'}
+                {dataColumn 'releaseDate', header: 'Release Date', content: fn($data) => date('M Y', strtotime($data['releaseDate']))}
+                {actionColumn}
+                    {actionButton 'view', 'View'}
+                    {actionButton 'update', 'Edit'}
+                    {actionButton 'delete', 'Delete'}
+                {/actionColumn}
+            {/gridView}
+            TEMPLATE
+        ;
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            $template,
+            [
+                'dataReader' => self::$dataReader
+            ],
+            $expected
+        );
+    }
+
+    #[Test]
+    public function grid_view_with_configuration(): void
+    {
+        $rows = [];
+
+        foreach (self::$data as $i => $data) {
+            $rows[] = sprintf(
+                <<<'ROW'
+                <tr>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>%s</td>
+                <td>
+                %s
+                %s
+                %s
+                </td>
+                </tr>
+                ROW,
+                $i + 1,
+                $data['title'],
+                $data['recordLabel'],
+                $data['catalogueNumber'],
+                date('M Y', strtotime($data['releaseDate'])),
+                '<a href="/admin/record/view?id=' . $data['id'] . '">View</a>',
+                '<a href="/admin/record/update?id=' . $data['id'] . '">Edit</a>',
+                '<a href="/admin/record/delete?id=' . $data['id'] . '">Delete</a>',
+            );
+        }
+
+        $expected = sprintf(
+            <<<'EXPECTED'
+            <div class="grid-view">
+            <div>Greenslade Records</div>
+            
+            <table>
+            <thead>
+            <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Record Label</th>
+            <th>Catalogue Number</th>
+            <th>Release Date</th>
+            <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            %s
+            </tbody>
+            </table>
+            <div>Page <b>1</b> of <b>1</b></div>
+            </div>
+            EXPECTED,
+            implode(PHP_EOL, $rows)
+        );
+
+        $template = <<<'TEMPLATE'
+            {gridView $dataReader|enableHeader: true|header: 'Greenslade Records'|containerAttributes: ['class' => 'grid-view']}
+                {serialColumn}
+                {dataColumn 'title'}
+                {dataColumn 'recordLabel', header: 'Record Label'}
+                {dataColumn 'catalogueNumber', header: 'Catalogue Number'}
+                {dataColumn 'releaseDate', header: 'Release Date', content: fn($data) => date('M Y', strtotime($data['releaseDate']))}
+                {actionColumn}
+                    {actionButton 'view', 'View'}
+                    {actionButton 'update', 'Edit'}
+                    {actionButton 'delete', 'Delete'}
+                {/actionColumn}
+            {/gridView}
+            TEMPLATE
+        ;
+
+        $this->assert(
+            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+            $template,
+            [
+                'dataReader' => self::$dataReader
+            ],
+            $expected
+        );
     }
 }
