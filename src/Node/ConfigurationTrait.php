@@ -16,7 +16,7 @@ trait ConfigurationTrait
     private function parseConfiguration($context): string
     {
         $configuration = [];
-        $output = '';
+        $methods = [];
 
         /** @var FilterNode $config */
         foreach ($this->configuration as $filterNode) {
@@ -35,15 +35,25 @@ trait ConfigurationTrait
                 $configuration[$name] = '';
             } else {
                 foreach ($atr as $a) {
-                    $configuration[$name] = $a instanceof Node ? $a->print($context) : '';
+                    if (str_ends_with($name, 'Class')) {
+                        $value = [];
+
+                        foreach ($a->value as $node) {
+                            $value[] = $node->print($context);
+                        }
+
+                        $configuration[$name] = implode(', ', $value);
+                    } else {
+                        $configuration[$name] = $a instanceof Node ? $a->print($context) : '';
+                    }
                 }
             }
         }
 
         foreach ($configuration as $modifier => $value) {
-            $output .= "->$modifier($value)";
+            $methods[] = "->$modifier($value)";
         }
 
-        return $output;
+        return implode("\n", $methods);
     }
 }
