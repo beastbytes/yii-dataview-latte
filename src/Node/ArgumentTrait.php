@@ -26,5 +26,4 @@ trait ArgumentTrait
 
         return implode(', ', $arguments);
     }
-
 }
