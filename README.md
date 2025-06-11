@@ -16,3 +16,6 @@ or add the following to the `require` section of your `composer.json`
 ```json
 "beastbytes/yii-dataview-latte": "{version constraint}"
 ```
+
+## Documentation
+[Yii DataView Latte Documentation](https://beastbytes.github.io/yii-dataview-latte).
