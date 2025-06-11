@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  INSTANCE: 'Writerside/r'
+  INSTANCE: 'Writerside/w'
   DOCKER_VERSION: '243.22562'
 
 jobs:
