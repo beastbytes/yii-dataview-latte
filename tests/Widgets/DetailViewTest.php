@@ -28,10 +28,8 @@ final class DetailViewTest extends TestCase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
                 <dt>%s</dt>
                 <dd>%s</dd>
-                </div>
                 FIELD,
                 $field,
                 self::$detail[$field]
@@ -48,11 +46,9 @@ final class DetailViewTest extends TestCase
     {
         $expected = sprintf(
             <<<'EXPECTED'
-            <div>
             <dl>
             %s
             </dl>
-            </div>
             EXPECTED,
             self::$expectedFields
         );
@@ -77,56 +73,20 @@ final class DetailViewTest extends TestCase
     }
 
     #[Test]
-    public function detail_view_with_header(): void
-    {
-        $expected = sprintf(
-            <<<'EXPECTED'
-            <div>
-            <div>Detail View</div>
-            <dl>
-            %s
-            </dl>
-            </div>
-            EXPECTED,
-            self::$expectedFields
-        );
-
-        $template = sprintf(
-            <<<'TEMPLATE'
-            {detailView $data|header: '<div>Detail View</div>'}
-            %s
-            {/detailView}
-            TEMPLATE,
-            self::$templateFields
-        );
-
-        $this->assert(
-            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            $template,
-            [
-                'data' => self::$detail
-            ],
-            $expected
-        );
-    }
-
-    #[Test]
     public function detail_view_with_attributes(): void
     {
         $expected = sprintf(
             <<<'EXPECTED'
-            <div class="detail-view">
-            <dl>
+            <dl class="detail-view">
             %s
             </dl>
-            </div>
             EXPECTED,
             self::$expectedFields
         );
 
         $template = sprintf(
             <<<'TEMPLATE'
-            {detailView $data|attributes: ["class" => "detail-view"]}
+            {detailView $data|listAttributes: ["class" => "detail-view"]}
             %s
             {/detailView}
             TEMPLATE,
@@ -149,10 +109,10 @@ final class DetailViewTest extends TestCase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div class="field">
-                <dt>%s</dt>
-                <dd>%s</dd>
-                </div>
+                <li class="field">
+                <span>%s</span>
+                <span>%s</span>
+                </li>
                 FIELD,
                 $field,
                 self::$detail[$field]
@@ -163,18 +123,22 @@ final class DetailViewTest extends TestCase
 
         $expected = sprintf(
             <<<'EXPECTED'
-            <div>
-            <dl>
+            <ul>
             %s
-            </dl>
-            </div>
+            </ul>
             EXPECTED,
             self::$expectedFields
         );
 
         $template = sprintf(
             <<<'TEMPLATE'
-            {detailView $data|fieldAttributes: ['class' => 'field']}
+            {detailView $data
+                |fieldTag: 'li'
+                |listTag: 'ul'
+                |fieldAttributes: ['class' => 'field']
+                |labelTag: 'span'
+                |valueTag: 'span'
+            }
             %s
             {/detailView}
             TEMPLATE,
@@ -196,18 +160,16 @@ final class DetailViewTest extends TestCase
     {
         $expected = sprintf(
             <<<'EXPECTED'
-            <div>
             <dl class="field-list">
             %s
             </dl>
-            </div>
             EXPECTED,
             self::$expectedFields
         );
 
         $template = sprintf(
             <<<'TEMPLATE'
-            {detailView $data|fieldListAttributes: ['class' => 'field-list']}
+            {detailView $data|listAttributes: ['class' => 'field-list']}
             %s
             {/detailView}
             TEMPLATE,
@@ -225,15 +187,15 @@ final class DetailViewTest extends TestCase
     }
 
     #[Test]
-    public function detail_view_with_templates_and_tags(): void
+    public function detail_view_with_tags(): void
     {
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <tr>
-                <th>%s</th>
-                <td>%s</td>
-                </tr>
+                <li>
+                <span>%s</span>
+                <span>%s</span>
+                </li>
                 FIELD,
                 $field,
                 self::$detail[$field]
@@ -244,11 +206,9 @@ final class DetailViewTest extends TestCase
 
         $expected = sprintf(
             <<<'EXPECTED'
-            <table>
-            <tbody>
+            <ol>
             %s
-            </tbody>
-            </table>
+            </ol>
             EXPECTED,
             self::$expectedFields
         );
@@ -256,10 +216,10 @@ final class DetailViewTest extends TestCase
         $template = sprintf(
             <<<'TEMPLATE'
             {detailView $data
-                |fieldTemplate: "<tr>\n{label}\n{value}\n</tr>"
-                |template: "<table>\n<tbody>\n{fields}\n</tbody>\n</table>"
-                |labelTag: "th"
-                |valueTag: "td"
+                |listTag: "ol"
+                |fieldTag: "li"
+                |labelTag: "span"
+                |valueTag: "span"
             }
             %s
             {/detailView}
@@ -280,53 +240,55 @@ final class DetailViewTest extends TestCase
     #[Test]
     public function detail_view_with_label_value_attributes_and_tags(): void
     {
-        foreach (self::$fields as $field) {
-            $expectedFields[] = sprintf(
-                <<<'FIELD'
-                <div>
+        {
+            foreach (self::$fields as $field) {
+                $expectedFields[] = sprintf(
+                    <<<'FIELD'
+                <li>
                 <span class="label">%s</span>
                 <span class="value">%s</span>
-                </div>
+                </li>
                 FIELD,
-                $field,
-                self::$detail[$field]
-            );
-        }
+                    $field,
+                    self::$detail[$field]
+                );
+            }
 
-        self::$expectedFields = implode(PHP_EOL, $expectedFields);
+            self::$expectedFields = implode(PHP_EOL, $expectedFields);
 
-        $expected = sprintf(
-            <<<'EXPECTED'
-            <div>
-            <dl>
+            $expected = sprintf(
+                <<<'EXPECTED'
+            <ol>
             %s
-            </dl>
-            </div>
+            </ol>
             EXPECTED,
-            self::$expectedFields
-        );
+                self::$expectedFields
+            );
 
-        $template = sprintf(
-            <<<'TEMPLATE'
+            $template = sprintf(
+                <<<'TEMPLATE'
             {detailView $data
-                |labelAttributes: ['class' => 'label']
+                |listTag: 'ol'
+                |fieldTag: 'li'
                 |labelTag: 'span'
-                |valueAttributes: ['class' => 'value']
+                |labelAttributes: ['class' => 'label']
                 |valueTag: 'span'
+                |valueAttributes: ['class' => 'value']
             }
             %s
             {/detailView}
             TEMPLATE,
-            self::$templateFields
-        );
+                self::$templateFields
+            );
 
-        $this->assert(
-            self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
-            $template,
-            [
-                'data' => self::$detail
-            ],
-            $expected
-        );
+            $this->assert(
+                self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . __METHOD__ . '.latte',
+                $template,
+                [
+                    'data' => self::$detail
+                ],
+                $expected
+            );
+        }
     }
 }

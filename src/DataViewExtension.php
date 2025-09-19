@@ -16,7 +16,7 @@ final class DataViewExtension extends Extension
             'actionColumn' => Node\Column\ActionColumnNode::create(...),
             'checkboxColumn' => Node\Column\ColumnNode::create(...),
             'dataColumn' => Node\Column\ColumnNode::create(...),
-            'dataField' => Node\Field\FieldNode::create(...),
+            'dataField' => Node\DataField\DataFieldNode::create(...),
             'detailView' => Node\Widget\DetailViewNode::create(...),
             'gridView' => Node\Widget\GridViewNode::create(...),
             'listView' => Node\Widget\ListViewNode::create(...),

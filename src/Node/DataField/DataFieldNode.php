@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Node\Field;
+namespace BeastBytes\Yii\DataView\Latte\Node\DataField;
 
 use BeastBytes\Yii\DataView\Latte\Node\ArgumentTrait;
 use Generator;
@@ -11,7 +11,7 @@ use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
 
-class FieldNode extends StatementNode
+class DataFieldNode extends StatementNode
 {
     use ArgumentTrait;
 
@@ -31,7 +31,8 @@ class FieldNode extends StatementNode
     {
         return $context->format(
             <<<'MASK'
-            new Yiisoft\Yii\DataView\Field\%node(%raw), %line
+            
+            new Yiisoft\Yii\DataView\DetailView\%node(%raw), %line
             MASK,
             $this->name,
             $this->parseArguments($context),

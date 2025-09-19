@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BeastBytes\Yii\DataView\Latte\Tests\Field;
+namespace BeastBytes\Yii\DataView\Latte\Tests\DataField;
 
 use BeastBytes\Yii\DataView\Latte\Tests\Support\AssertTrait;
 use BeastBytes\Yii\DataView\Latte\Tests\Support\TestCase;
@@ -14,11 +14,9 @@ final class DataFieldTest extends TestCase
     use AssertTrait;
 
     private const EXPECTED = <<<EXPECTED
-        <div>
         <dl>
         %s
         </dl>
-        </div>
         EXPECTED
     ;
 
@@ -47,10 +45,8 @@ final class DataFieldTest extends TestCase
         foreach (self::$fields as $field) {
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
                 <dt>%s</dt>
                 <dd>%s</dd>
-                </div>
                 FIELD,
                 $field,
                 self::$detail[$field]
@@ -78,10 +74,8 @@ final class DataFieldTest extends TestCase
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
                 <dt>%s</dt>
                 <dd>%s</dd>
-                </div>
                 FIELD,
                 $label,
                 self::$detail[$field]
@@ -114,10 +108,8 @@ final class DataFieldTest extends TestCase
 
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
                 <dt>%s</dt>
                 <dd>%s</dd>
-                </div>
                 FIELD,
                 $label,
                 ($field === 'releaseDate'
@@ -130,7 +122,7 @@ final class DataFieldTest extends TestCase
                 $field,
                 'label: \'' . $label . '\'',
                 'value: ' . ($field === 'releaseDate'
-                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data[\'releaseDate\']))'
+                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data->data[\'releaseDate\']))'
                     : 'null'
                 )
             );
@@ -157,10 +149,8 @@ final class DataFieldTest extends TestCase
 
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
                 <dt>%s</dt>
                 <dd>%s</dd>
-                </div>
                 FIELD,
                 $label,
                 ($field === 'releaseDate'
@@ -172,7 +162,7 @@ final class DataFieldTest extends TestCase
                 "{dataField %s, %s}",
                 'label: \'' . $label . '\'',
                 'value: ' . ($field === 'releaseDate'
-                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data[\'releaseDate\']))'
+                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data->data[\'releaseDate\']))'
                     : "'" . self::$detail[$field] . "'"
                 )
             );
@@ -198,20 +188,16 @@ final class DataFieldTest extends TestCase
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
-                <span>%s</span>
-                <span>%s</span>
-                </div>
+                <dt>%s</dt>
+                <dd>%s</dd>
                 FIELD,
                 $label,
                 self::$detail[$field]
             );
             $fields[] = sprintf(
-                "{dataField '%s', %s, %s, %s}",
+                "{dataField '%s', %s}",
                 $field,
                 'label: \'' . $label . '\'',
-                'labelTag: \'span\'',
-                'valueTag: \'span\''
             );
         }
 
@@ -235,22 +221,18 @@ final class DataFieldTest extends TestCase
             $label = self::$inflector->toSentence(ucfirst($field), uppercaseAll: true);
             $expectedFields[] = sprintf(
                 <<<'FIELD'
-                <div>
-                <span class="label">%s</span>
-                <span class="value">%s</span>
-                </div>
+                <dt class="label">%s</dt>
+                <dd class="value">%s</dd>
                 FIELD,
                 $label,
                 self::$detail[$field]
             );
             $fields[] = sprintf(
-                "{dataField '%s', %s, %s, %s, %s, %s}",
+                "{dataField '%s', %s, %s, %s}",
                 $field,
                 'label: \'' . $label . '\'',
                 'labelAttributes: ["class" => "label"]',
-                'labelTag: \'span\'',
                 'valueAttributes: ["class" => "value"]',
-                'valueTag: \'span\''
             );
         }
 

@@ -41,7 +41,7 @@ class DetailViewNode extends StatementNode
     {
         return $context->format(
             <<<'MASK'
-            echo Yiisoft\Yii\DataView\%node::widget() %line
+            echo Yiisoft\Yii\DataView\DetailView\%node::widget() %line
                 ->data(%node)
                 ->fields(%node)
             %raw
