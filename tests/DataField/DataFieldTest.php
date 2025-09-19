@@ -122,7 +122,7 @@ final class DataFieldTest extends TestCase
                 $field,
                 'label: \'' . $label . '\'',
                 'value: ' . ($field === 'releaseDate'
-                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data->data[\'releaseDate\']))'
+                    ? 'fn($context) => date(\'Y-m-d\', strtotime($context->data[\'releaseDate\']))'
                     : 'null'
                 )
             );
@@ -162,7 +162,7 @@ final class DataFieldTest extends TestCase
                 "{dataField %s, %s}",
                 'label: \'' . $label . '\'',
                 'value: ' . ($field === 'releaseDate'
-                    ? 'fn($data) => date(\'Y-m-d\', strtotime($data->data[\'releaseDate\']))'
+                    ? 'fn($context) => date(\'Y-m-d\', strtotime($context->data[\'releaseDate\']))'
                     : "'" . self::$detail[$field] . "'"
                 )
             );

@@ -36,8 +36,7 @@
         <p>
             The <b>detailView</b> tag can be configured using the Latte filter syntax.
             A configuration <i>filter</i> has the name of the DetailView configuration method
-            and accepts the same type as the method's parameter;
-            e.g. <code>{detailView $data|header: 'User Details'}</code> will set the header of the DetailView.
+            and accepts the same type as the method's parameter.
             The exception is methods that have variable-length argument lists; these must be passed as an array.
         </p>
     </chapter>
@@ -50,11 +49,11 @@
         <code-block lang="latte">
             {varType array|object $data}
 
-            {detailView $data|header: 'User Details'}
+            {detailView $data|listAttributes: ['class' => 'user-details']}
                 {dataField 'id'}
                 {dataField 'username'}
                 {dataField 'email'}
-                {dataField label: 'Created At', value: fn($data) => date('Y-m-d', $data->created_at)}
+                {dataField label: 'Created At', value: fn($data) => date('Y-m-d', $data->data->created_at)}
             {/detailView}
         </code-block>
     </chapter>

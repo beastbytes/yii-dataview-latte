@@ -29,8 +29,13 @@
                 {dataField 'id'}
                 {dataField 'username'}
                 {dataField 'email'}
-                {dataField label: 'Created At', value: fn($data) => date('Y-m-d', $data->created_at)}
+                {dataField label: 'Created At', value: fn($context) => date('Y-m-d', $context->data->created_at)}
             {/detailView}
         </code-block>
+
+        <note>
+            When using a callable as the value, the parameter passed to the callable is a ```GetValueContext```.
+            To get the data (the DetailView data array or object), use ```$context->data```.
+        </note>
     </chapter>
 </topic>
