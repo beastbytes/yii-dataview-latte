@@ -32,6 +32,7 @@ class ActionButtonNode extends StatementNode
     {
         return $context->format(
             <<<'MASK'
+            
             %node => new Yiisoft\Yii\DataView\Column\%node(%raw), %line
             MASK,
             $this->getButtonName(),

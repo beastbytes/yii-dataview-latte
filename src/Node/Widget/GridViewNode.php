@@ -39,7 +39,8 @@ class GridViewNode extends StatementNode
             <<<'MASK'
             echo Yiisoft\Yii\DataView\%node::widget() %line
                 ->dataReader(%node)
-                ->columns(%node)
+                ->columns(%node
+                )
             %raw
             ;
             MASK,

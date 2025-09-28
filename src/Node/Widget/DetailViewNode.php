@@ -43,7 +43,8 @@ class DetailViewNode extends StatementNode
             <<<'MASK'
             echo Yiisoft\Yii\DataView\DetailView\%node::widget() %line
                 ->data(%node)
-                ->fields(%node)
+                ->fields(%node
+                )
             %raw
             ;
             MASK,
