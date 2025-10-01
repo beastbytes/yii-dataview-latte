@@ -35,19 +35,20 @@ class ListViewNode extends StatementNode
 
     public function print(PrintContext $context): string
     {
+        /*
         $itemView = $this->getItemView();
 
         if ($itemView instanceof VariableNode) {
             return $context->format(
                 <<<'MASK'
                 if (is_string(%node)) { %line
-                    echo Yiisoft\Yii\DataView\%node::widget()
+                    echo Yiisoft\Yii\DataView\ListView\%node::widget()
                         ->dataReader(%node)
                         ->itemView(%node)
                     %raw
                     ;
                 } else {
-                    echo Yiisoft\Yii\DataView\%node::widget()
+                    echo Yiisoft\Yii\DataView\ListView\%node::widget()
                         ->dataReader(%node)
                         ->itemCallback(%node)
                     %raw
@@ -69,7 +70,7 @@ class ListViewNode extends StatementNode
 
         if ($itemView instanceof StringNode) {
             $mask = <<<'MASK'
-                echo Yiisoft\Yii\DataView\%node::widget() %line
+                echo Yiisoft\Yii\DataView\ListView\%node::widget() %line
                     ->dataReader(%node)
                     ->itemView(%node)
                 %raw
@@ -78,7 +79,7 @@ class ListViewNode extends StatementNode
             ;
         } else { // ClosureNode
             $mask = <<<'MASK'
-                echo Yiisoft\Yii\DataView\%node::widget() %line
+                echo Yiisoft\Yii\DataView\ListView\%node::widget() %line
                     ->dataReader(%node)
                     ->itemCallback(%node)
                 %raw
@@ -89,6 +90,22 @@ class ListViewNode extends StatementNode
 
         return $context->format(
             $mask,
+            $this->name,
+            $this->position,
+            $this->getDataReader(),
+            $this->getItemView(),
+            $this->parseConfiguration($context)
+        );
+        //*/
+
+        return $context->format(
+            <<<'MASK'
+            echo Yiisoft\Yii\DataView\ListView\%node::widget() %line
+                ->dataReader(%node)
+                ->itemView(%node)
+            %raw
+            ;
+            MASK,
             $this->name,
             $this->position,
             $this->getDataReader(),

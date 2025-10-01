@@ -34,7 +34,7 @@ class ActionColumnNode extends StatementNode
         return $context->format(
             <<<'MASK'
             
-            new Yiisoft\Yii\DataView\Column\%node( %line
+            new Yiisoft\Yii\DataView\GridView\Column\%node( %line
                 buttons: [
             %node
                 ],

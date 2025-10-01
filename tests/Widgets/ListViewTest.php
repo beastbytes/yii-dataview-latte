@@ -38,8 +38,7 @@ final class ListViewTest extends TestCase
         foreach (self::$data as $data) {
             $items[] = sprintf(
                 <<<'EXPECTED'
-                <li>
-                <span class="title">%s</span> by <span class="artist">%s</span>
+                <li><span class="title">%s</span> by <span class="artist">%s</span>
                 </li>
                 EXPECTED,
                 $data['title'],
@@ -82,8 +81,7 @@ final class ListViewTest extends TestCase
         foreach (self::$data as $data) {
             $items[] = sprintf(
                 <<<'EXPECTED'
-                <li>
-                <span class="title">%s</span> by <span class="artist">%s</span>
+                <li><span class="title">%s</span> by <span class="artist">%s</span>
                 </li>
                 EXPECTED,
                 $data['title'],
@@ -97,7 +95,7 @@ final class ListViewTest extends TestCase
             <<<'TEMPLATE'
             {listView $dataReader, %s}
             TEMPLATE,
-            'fn($context) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $context->data[\'title\'], $context->data[\'artist\'])'
+            'fn($data) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $data[\'title\'], $data[\'artist\'])'
         );
 
         $this->assert(
@@ -126,8 +124,7 @@ final class ListViewTest extends TestCase
         foreach (self::$data as $data) {
             $items[] = sprintf(
                 <<<'EXPECTED'
-                <li>
-                <span class="title">%s</span> by <span class="artist">%s</span>
+                <li><span class="title">%s</span> by <span class="artist">%s</span>
                 </li>
                 EXPECTED,
                 $data['title'],
@@ -169,8 +166,7 @@ final class ListViewTest extends TestCase
         foreach (self::$data as $data) {
             $items[] = sprintf(
                 <<<'EXPECTED'
-                <li>
-                <span class="title">%s</span> by <span class="artist">%s</span>
+                <li><span class="title">%s</span> by <span class="artist">%s</span>
                 </li>
                 EXPECTED,
                 $data['title'],
@@ -189,7 +185,7 @@ final class ListViewTest extends TestCase
             $template,
             [
                 'dataReader' => self::$dataReader,
-                'itemCallback' => fn($context) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $context->data['title'], $context->data['artist'])
+                'itemCallback' => fn($data) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $data['title'], $data['artist'])
             ],
             $expected
         );
@@ -212,8 +208,7 @@ final class ListViewTest extends TestCase
         foreach (self::$data as $data) {
             $items[] = sprintf(
                 <<<'EXPECTED'
-                <div>
-                <span class="title">%s</span> by <span class="artist">%s</span>
+                <div><span class="title">%s</span> by <span class="artist">%s</span>
                 </div>
                 EXPECTED,
                 $data['title'],
@@ -224,7 +219,7 @@ final class ListViewTest extends TestCase
         $expected = sprintf($expected, implode(PHP_EOL, $items));
 
         $template = <<<'TEMPLATE'
-            {listView $dataReader, $itemCallback|id: 'list-view'|itemTag: 'div'|itemListTag: 'div'}
+            {listView $dataReader, $itemCallback|id: 'list-view'|itemTag: 'div'|listTag: 'div'}
             TEMPLATE;
 
         $this->assert(
@@ -232,7 +227,7 @@ final class ListViewTest extends TestCase
             $template,
             [
                 'dataReader' => self::$dataReader,
-                'itemCallback' => fn($context) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $context->data['title'], $context->data['artist'])
+                'itemCallback' => fn($data) => sprintf("<span class=\"title\">%s</span> by <span class=\"artist\">%s</span>\n", $data['title'], $data['artist'])
             ],
             $expected
         );

@@ -30,7 +30,7 @@ class ColumnNode extends StatementNode
         return $context->format(
             <<<'MASK'
             
-            new Yiisoft\Yii\DataView\Column\%node(%raw), %line
+            new Yiisoft\Yii\DataView\GridView\Column\%node(%raw), %line
             MASK,
             $this->name,
             $this->parseArguments($context),
